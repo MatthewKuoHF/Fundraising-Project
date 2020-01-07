@@ -65,6 +65,7 @@ class Login extends Component {
                         onClick={this.handleSubmit}>
                         Login
                     </Button>
+                    <Button>Register</Button>
                 </form>
                 <h1>Login: {this.props.isLoggedIn ? "True" : "False"}</h1>
             </div>
