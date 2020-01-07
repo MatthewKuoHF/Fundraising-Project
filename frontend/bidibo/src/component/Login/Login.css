@@ -1,24 +1,24 @@
 @media all and (min-width: 480px) {
-  .Login {
-    padding: 60px 0;
-  }
-  .Login form {
-    margin: 0 auto;
-    max-width: 320px;
-  }
+    .Login {
+        padding: 60px 0;
+    }
+    .Login form {
+        margin: 0 auto;
+        max-width: 320px;
+    }
 }
 
 .inputClass {
-  width: 98%;
-  height: 20px;
-  font-size: 15px;
+    width: 98%;
+    height: 20px;
+    font-size: 15px;
 }
 
-Button {
-  width: 100%;
-  height: 30px;
+button {
+    width: 100%;
+    height: 30px;
 }
 
-.submit{
-  font-size: 20px;
+.submit {
+    font-size: 20px;
 }

@@ -1,33 +1,34 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import React from 'react';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import React from "react";
 
-import Navbar from './component/Navbar/Navbar';
-import Login from './component/Login/Login';
-import Main from './component/Main/Main';
-import Register from './component/Register/Register';
+import Navbar from "./component/Navbar/Navbar";
+import Login from "./component/Login/Login";
+import Main from "./component/Main/Main";
+import Register from "./component/Register/Register";
 
-import './App.css';
+import "./App.css";
 //import logo from './logo.svg';
-import Project from './component/Project/Project';
+import Project from "./component/Project/Project";
 
 class App extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             email: "",
             firstName: "",
             lastName: "",
-            isLoggedIn: localStorage.getItem('isLoggedIn') === 'true' ? true : false
-        }
-        this.updateState = this.updateState.bind(this)
+            isLoggedIn:
+                localStorage.getItem("isLoggedIn") === "true" ? true : false
+        };
+        this.updateState = this.updateState.bind(this);
     }
     updateState(name, value) {
         this.setState({
             [name]: value
-        })
-        localStorage.setItem('isLoggedIn', value)
+        });
+        localStorage.setItem("isLoggedIn", value);
     }
-    
+
     render() {
         return (
             <div>
@@ -51,11 +52,14 @@ class App extends React.Component {
                         />
                     </Route>
 
-                    <Route path="/category" exact strict render={
-                        () => {
-                            return (<h1>Welcome Category</h1>)
-                        }
-                    } />
+                    <Route
+                        path="/category"
+                        exact
+                        strict
+                        render={() => {
+                            return <h1>Welcome Category</h1>;
+                        }}
+                    />
 
                     <Route path="/login" exact strict>
                         <Login
