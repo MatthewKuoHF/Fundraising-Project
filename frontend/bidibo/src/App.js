@@ -1,16 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import Navbar from './component/Navbar/Navbar';
-import './App.css';
-import Login from './component/Login/Login';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import React from 'react';
+
+import Navbar from './component/Navbar/Navbar';
+import Login from './component/Login/Login';
 import Main from './component/Main/Main';
+import Register from './component/Register/Register';
+
+import './App.css';
+import logo from './logo.svg';
 
 class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            user: "",
+            email: "",
+            firstName: "",
+            lastName: "",
             isLoggedIn: localStorage.getItem('isLoggedIn') == 'true' ? true : false
         }
         this.updateState = this.updateState.bind(this)
@@ -41,6 +46,13 @@ class App extends React.Component {
                         />
                     </Route>
 
+                    <Route path="/project/:id" exact strict>
+                        <Main
+                            isLoggedIn={this.state.isLoggedIn}
+                            stateHandler={this.props.stateHandler}
+                        />
+                    </Route>
+
                     <Route path="/category" exact strict render={
                         () => {
                             return (<h1>Welcome Category</h1>)
@@ -53,7 +65,13 @@ class App extends React.Component {
                             stateHandler={this.updateState}
                         />
                     </Route>
-                    
+                    <Route path="/register" exact strict>
+                        <Register
+                            isLoggedIn={this.state.isLoggedIn}
+                            stateHandler={this.props.stateHandler}
+                        />
+                    </Route>
+
                     <footer>
                         <h1>Footer</h1>
                     </footer>

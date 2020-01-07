@@ -1,5 +1,6 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
+
 import './Navbar.css'
 
 class Navbar extends React.Component {
@@ -18,16 +19,17 @@ class Navbar extends React.Component {
         let InOrOut = this.props.isLoggedIn ?
             <li><a href="/" onClick={this.singOut}>Sign out</a></li>
             :
-            <li><a href="/login">Sign in</a></li>
+            <Link to="/login"><li>Sign in</li></Link>
+
         return (
             <header>
-                <div class="container">
-                    <a href="/"><h1 class="logo">Fundraising</h1></a>
+                <div className="container">
+                    <Link to="/"><h1 className="logo">Fundraising</h1></Link>
                     <nav>
                         <ul>
-                            <li><a href="/">Home</a></li>
-                            <li><a href="/category">Category</a></li>
-                            <li><a href="/">Upload</a></li>
+                            <Link to="/"><li>Home</li></Link>
+                            <Link to="/category"><li>Category</li></Link>
+                            <Link to="/"><li>Upload</li></Link>
                             {InOrOut}
                         </ul>
                     </nav>
