@@ -8,6 +8,7 @@ import Register from './component/Register/Register';
 
 import './App.css';
 import logo from './logo.svg';
+import Project from './component/Project/Project';
 
 class App extends React.Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class App extends React.Component {
         this.updateState = this.updateState.bind(this)
         this.isLoggedInFunction = this.isLoggedInFunction.bind(this)
     }
-    updateState(name, value, func) {
+    updateState(name, value) {
         this.setState({
             [name]: value
         })
@@ -42,14 +43,14 @@ class App extends React.Component {
                     <Route path="/" exact strict>
                         <Main
                             isLoggedIn={this.state.isLoggedIn}
-                            stateHandler={this.props.stateHandler}
+                            stateHandler={this.updateState}
                         />
                     </Route>
 
                     <Route path="/project/:id" exact strict>
-                        <Main
+                        <Project
                             isLoggedIn={this.state.isLoggedIn}
-                            stateHandler={this.props.stateHandler}
+                            stateHandler={this.updateState}
                         />
                     </Route>
 

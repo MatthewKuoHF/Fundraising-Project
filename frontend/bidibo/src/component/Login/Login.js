@@ -10,8 +10,6 @@ class Login extends Component {
             email: "",
             password: "",
         }
-        console.log("Login.js")
-        console.log(this.props)
         this.validateForm = this.validateForm.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
