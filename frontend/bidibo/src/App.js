@@ -7,7 +7,7 @@ import Main from './component/Main/Main';
 import Register from './component/Register/Register';
 
 import './App.css';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import Project from './component/Project/Project';
 
 class App extends React.Component {
@@ -17,10 +17,9 @@ class App extends React.Component {
             email: "",
             firstName: "",
             lastName: "",
-            isLoggedIn: localStorage.getItem('isLoggedIn') == 'true' ? true : false
+            isLoggedIn: localStorage.getItem('isLoggedIn') === 'true' ? true : false
         }
         this.updateState = this.updateState.bind(this)
-        this.isLoggedInFunction = this.isLoggedInFunction.bind(this)
     }
     updateState(name, value) {
         this.setState({
@@ -28,9 +27,7 @@ class App extends React.Component {
         })
         localStorage.setItem('isLoggedIn', value)
     }
-    isLoggedInFunction() {
-        return this.state.isLoggedIn
-    }
+    
     render() {
         return (
             <div>

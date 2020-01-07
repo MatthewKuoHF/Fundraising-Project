@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl } from "react-bootstrap";
-import "./Login.css";
 import { withRouter } from 'react-router-dom';
+import "./Login.css";
 
 class Login extends Component {
     constructor(props) {
@@ -57,13 +57,16 @@ class Login extends Component {
                     </FormGroup>
                     <br />
                     <Button
+                        className="submit"
                         block
                         disabled={!this.validateForm(this.state.email, this.state.password)}
                         type="submit"
                         onClick={this.handleSubmit}>
                         Login
                     </Button>
-                    <Button>Register</Button>
+                    <Button
+                        className="submit"
+                    >Register</Button>
                 </form>
                 <h1>Login: {this.props.isLoggedIn ? "True" : "False"}</h1>
             </div>
