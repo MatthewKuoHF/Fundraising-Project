@@ -1,0 +1,9 @@
+<Project>
+    <FrontEnd>
+        <Register>
+            <email></email>
+            <password></password>
+            <school></school>
+        </Register>
+    </FrontEnd>
+</Project>

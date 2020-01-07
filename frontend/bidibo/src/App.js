@@ -13,7 +13,7 @@ import Project from "./component/Project/Project";
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = { 
             email: "",
             firstName: "",
             lastName: "",
