@@ -1,6 +1,6 @@
-git add .  
-git commit -m ""  
-git push -u origin master
+`git add .`
+`git commit -m "mmddyyyy: update message"`
+`git push -u origin master`
 
 | **Todo**                                                                                                                                               |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------ |

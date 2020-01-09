@@ -1,5 +1,0 @@
-Todo:
-
-frontend: 
-1. set style={{cursor: "pointer"}} for links and clickable stuff
-2. update navbar using bootstrap and set up dropdown for navbar
