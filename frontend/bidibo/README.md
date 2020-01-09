@@ -67,13 +67,20 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
-Make good use of destructuring:
-
 ```javascript
+//Make good use of destructuring:
 const { onSelete, onStuff, andSoOn } = this.props;
 constructer({ counter }){
     functionName(counter){}
 }
 ```
 
-Lifecycle: constructor -> render -> mount
+Mounting phase:
+Lifecycle: constructor -> render -> (children's render) -> mount
+
+Updating phase:
+
+```javascript
+componentDidUpdate(prevProps, prevState){}
+componentWillUnmounted(){}
+```

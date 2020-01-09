@@ -1,14 +1,14 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import React from "react";
 
-import Navbar from "./component/Navbar/Navbar";
-import Login from "./component/Login/Login";
-import Main from "./component/Main/Main";
-import Register from "./component/Register/Register";
+import Navbar from "./components/Navbar/Navbar";
+import Login from "./components/Login/Login";
+import Main from "./components/Main/Main";
+import Register from "./components/Register/Register";
 
 import "./App.css";
 //import logo from './logo.svg';
-import Project from "./component/Project/Project";
+import Project from "./components/Project/Project";
 
 class App extends React.Component {
     constructor(props) {
