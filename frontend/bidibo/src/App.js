@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import React from "react";
 
 import Navbar from "./components/Navbar/Navbar";
@@ -32,52 +32,47 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <Router>
-                    <Navbar
-                        isLoggedIn={this.state.isLoggedIn}
-                        stateHandler={this.updateState}
-                    />
-
-                    <Route path="/" exact strict>
-                        <Main
-                            isLoggedIn={this.state.isLoggedIn}
-                            stateHandler={this.updateState}
+                <Navbar
+                    isLoggedIn={this.state.isLoggedIn}
+                    stateHandler={this.updateState}
+                />
+                <div className="content">
+                    <Switch>
+                        <Route path="/project/:id">
+                            <Project
+                                isLoggedIn={this.state.isLoggedIn}
+                                stateHandler={this.updateState}
+                            />
+                        </Route>
+                        <Route
+                            path="/category"
+                            render={() => {
+                                return <h1>Welcome Category</h1>;
+                            }}
                         />
-                    </Route>
-
-                    <Route path="/project/:id" exact strict>
-                        <Project
-                            isLoggedIn={this.state.isLoggedIn}
-                            stateHandler={this.updateState}
-                        />
-                    </Route>
-
-                    <Route
-                        path="/category"
-                        exact
-                        strict
-                        render={() => {
-                            return <h1>Welcome Category</h1>;
-                        }}
-                    />
-
-                    <Route path="/login" exact strict>
-                        <Login
-                            isLoggedIn={this.state.isLoggedIn}
-                            stateHandler={this.updateState}
-                        />
-                    </Route>
-                    <Route path="/register" exact strict>
-                        <Register
-                            isLoggedIn={this.state.isLoggedIn}
-                            stateHandler={this.props.stateHandler}
-                        />
-                    </Route>
-
-                    <footer>
-                        <h1>Footer</h1>
-                    </footer>
-                </Router>
+                        <Route path="/login">
+                            <Login
+                                isLoggedIn={this.state.isLoggedIn}
+                                stateHandler={this.updateState}
+                            />
+                        </Route>
+                        <Route path="/register">
+                            <Register
+                                isLoggedIn={this.state.isLoggedIn}
+                                stateHandler={this.updateState}
+                            />
+                        </Route>
+                        <Route path="/">
+                            <Main
+                                isLoggedIn={this.state.isLoggedIn}
+                                stateHandler={this.updateState}
+                            />
+                        </Route>
+                    </Switch>
+                </div>
+                <footer>
+                    <h1>Footer</h1>
+                </footer>
             </div>
         );
     }
