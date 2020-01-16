@@ -1,4 +1,4 @@
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import React from "react";
 
 import Navbar from "./components/Navbar/Navbar";
@@ -38,12 +38,17 @@ class App extends React.Component {
                 />
                 <div className="content">
                     <Switch>
-                        <Route path="/project/:id">
-                            <Project
-                                isLoggedIn={this.state.isLoggedIn}
-                                stateHandler={this.updateState}
-                            />
-                        </Route>
+                        <Redirect from="/home" to="/" />
+                        <Route
+                            path="/project/:id"
+                            render={props => (
+                                <Project
+                                    isLoggedIn={this.state.isLoggedIn}
+                                    stateHandler={this.updateState}
+                                    {...props}
+                                />
+                            )}
+                        />
                         <Route
                             path="/category"
                             render={() => {
@@ -62,12 +67,15 @@ class App extends React.Component {
                                 stateHandler={this.updateState}
                             />
                         </Route>
-                        <Route path="/">
-                            <Main
-                                isLoggedIn={this.state.isLoggedIn}
-                                stateHandler={this.updateState}
-                            />
-                        </Route>
+                        <Route
+                            path="/"
+                            render={() => (
+                                <Main
+                                    isLoggedIn={this.state.isLoggedIn}
+                                    stateHandler={this.updateState}
+                                />
+                            )}
+                        />
                     </Switch>
                 </div>
                 <footer>

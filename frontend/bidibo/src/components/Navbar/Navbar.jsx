@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import "./Navbar.css";
 
@@ -22,33 +22,32 @@ class Navbar extends React.Component {
                 </a>
             </li>
         ) : (
-            <Link to="/login">
+            <NavLink to="/login">
                 <li>Sign in</li>
-            </Link>
+            </NavLink>
         );
 
         return (
             <header>
                 <div className="container">
-                    <Link to="/">
+                    <NavLink to="/">
                         <h1 className="logo">Fundraising</h1>
-                    </Link>
+                    </NavLink>
                     <nav>
                         <ul>
-                            <Link to="/">
+                            <NavLink to="/">
                                 <li>Home</li>
-                            </Link>
-                            <Link to="/category">
+                            </NavLink>
+                            <NavLink to="/category">
                                 <li>Category</li>
-                            </Link>
-                            <Link to="/">
+                            </NavLink>
+                            <NavLink to="/">
                                 <li>Upload</li>
-                            </Link>
+                            </NavLink>
                             {InOrOut}
                         </ul>
                     </nav>
                 </div>
-                <h1>Navbar: {this.props.isLoggedIn ? "True" : "False"}</h1>
             </header>
         );
     }

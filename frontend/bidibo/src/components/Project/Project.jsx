@@ -4,7 +4,7 @@ class Project extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: window.location.href.split("/")[4]
+            id: props.match.params.id
         };
     }
     render() {
