@@ -36,7 +36,7 @@ class Login extends Component {
             <div className="Login">
                 <form>
                     <FormGroup controlId="email">
-                        <label>Email: </label>
+                        <label htmlFor="email">Email: </label>
                         <FormControl
                             autoFocus
                             type="email"
@@ -47,7 +47,7 @@ class Login extends Component {
                     </FormGroup>
                     <br />
                     <FormGroup controlId="password">
-                        <label>Password: </label>
+                        <label htmlFor="password">Password: </label>
                         <FormControl
                             type="password"
                             value={this.state.password}
