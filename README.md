@@ -4,7 +4,7 @@
 
 `mongod --dbpath /users/matthewkuo/data/db/`<br/>
 
-**Todo**
+**Todo**<br />
 install axios@0.18<br />
 install font-awesome@4.7.0<br />
 install lodash@4.17.10<br />
