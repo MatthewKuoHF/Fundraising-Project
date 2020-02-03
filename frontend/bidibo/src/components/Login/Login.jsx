@@ -1,6 +1,9 @@
 import React, { Component } from "react";
+import http from "../../services/httpService";
+import config from "../../config.json";
 import { Button, FormGroup, FormControl } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
+import crypto from "crypto";
 import "./Login.css";
 
 class Login extends Component {
@@ -19,10 +22,29 @@ class Login extends Component {
         return email.length > 0 && password.length > 0;
     }
 
-    handleSubmit() {
-        //if pass
-        this.props.stateHandler("isLoggedIn", true);
-        this.props.history.push("/");
+    handleSubmit(e) {
+        e.preventDefault();
+        let hash = crypto.getHashes();
+        let hashPwd = crypto
+            .createHash("sha1")
+            .update(this.state.password[0])
+            .digest("hex");
+
+        http.post(config.apiUrl + "login", {
+            email: this.state.email,
+            password: hashPwd
+        })
+            .then(response => {
+                const { email, firstName, lastName, school } = response.data;
+                this.props.stateHandler("isLoggedIn", true);
+                this.props.stateHandler("firstName", firstName);
+                this.props.stateHandler("lastName", lastName);
+                this.props.stateHandler("school", school);
+                this.props.history.push("/");
+            })
+            .catch(ex => {
+                alert("Wrong Email or Password!");
+            });
     }
 
     handleChange(target) {
@@ -66,7 +88,7 @@ class Login extends Component {
                             )
                         }
                         type="submit"
-                        onClick={this.handleSubmit}
+                        onClick={e => this.handleSubmit(e)}
                     >
                         Login
                     </Button>

@@ -17,6 +17,7 @@ class App extends React.Component {
             email: "",
             firstName: "",
             lastName: "",
+            school: "",
             isLoggedIn:
                 localStorage.getItem("isLoggedIn") === "true" ? true : false
         };
@@ -36,6 +37,7 @@ class App extends React.Component {
                     isLoggedIn={this.state.isLoggedIn}
                     stateHandler={this.updateState}
                 />
+                {this.state.firstName ? "Hi! " + this.state.firstName : ""}
                 <div className="content">
                     <Switch>
                         <Redirect from="/home" to="/" />

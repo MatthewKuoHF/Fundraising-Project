@@ -3,4 +3,4 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 import os
 
-class Users(db.)
+#class Users(db.)
