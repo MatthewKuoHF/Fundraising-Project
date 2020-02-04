@@ -67,6 +67,7 @@ class App extends React.Component {
                             <Register
                                 isLoggedIn={this.state.isLoggedIn}
                                 stateHandler={this.updateState}
+                                props={this.props}
                             />
                         </Route>
                         <Route

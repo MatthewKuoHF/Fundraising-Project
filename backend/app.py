@@ -112,15 +112,15 @@ def login():
         firstName=r['firstName']
         lastName=r['lastName']
         school=r['school']
-    result=passwordFromDb
-    m=hashlib.sha1(result.encode()).hexdigest()
+    #result=passwordFromDb
+    #m=hashlib.sha1(result.encode()).hexdigest()
     user={
         "email": email,
         "firstName": firstName,
         "lastName": lastName,
         "school": school
     }
-    if(m==password):
+    if(passwordFromDb==password):
         return jsonify(user), 200
     return jsonify({"message":"wrong"}), 404
 

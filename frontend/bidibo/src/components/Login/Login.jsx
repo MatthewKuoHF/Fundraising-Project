@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import http from "../../services/httpService";
 import config from "../../config.json";
 import { Button, FormGroup, FormControl } from "react-bootstrap";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import crypto from "crypto";
 import "./Login.css";
 
@@ -24,7 +24,7 @@ class Login extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        let hash = crypto.getHashes();
+        //let hash = crypto.getHashes();
         let hashPwd = crypto
             .createHash("sha1")
             .update(this.state.password[0])
@@ -92,7 +92,9 @@ class Login extends Component {
                     >
                         Login
                     </Button>
-                    <Button className="submit">Register</Button>
+                    <Button className="submit">
+                        <Link to="/register">Register</Link>
+                    </Button>
                 </form>
                 <h1>Login: {this.props.isLoggedIn ? "True" : "False"}</h1>
             </div>
