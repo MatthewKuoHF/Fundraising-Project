@@ -83,16 +83,14 @@ def add_product():
 
     return product_schema.jsonify(new_product)
 
-@app.route('/users', methods=['POST'])
+@app.route('/register', methods=['POST'])
 def add_user():
     firstName=request.json['firstName']
     lastName=request.json['lastName']
     email=request.json['email']
     school=request.json['school']
     password=request.json['password']
-
     new_user = Users(firstName, lastName, email, school, password)
-
     db.session.add(new_user)
     db.session.commit()
     return user_schema.jsonify(new_user)
@@ -123,6 +121,19 @@ def login():
     if(passwordFromDb==password):
         return jsonify(user), 200
     return jsonify({"message":"wrong"}), 404
+
+# get all projects
+@app.route('/project', methods=['GET'])
+def get_projects():
+    projects = pj.projectList
+    return jsonify(projects)
+
+# get single project
+@app.route('/project/<id>', methods=['GET'])
+def get_project(id: int):
+    id=int(id)
+    project = pj.projectList[id-1]
+    return jsonify(project)
 
 # get all product
 @app.route('/product', methods=['GET'])

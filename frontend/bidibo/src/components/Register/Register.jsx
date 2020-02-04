@@ -2,7 +2,10 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "../common/form";
 import crypto from "crypto";
+import http from "../../services/httpService";
 import { withRouter } from "react-router-dom";
+import config from "../../config.json";
+import "./Register.css";
 
 class Register extends Form {
     state = {
@@ -48,11 +51,23 @@ class Register extends Form {
             .digest("hex");
         data["password"] = hashPwd;
         this.setState({ data });
-        //this.props.history.push("/");
+        http.post(config.apiUrl + "/register", data)
+            .then(response => {
+                const { email, firstName, lastName, school } = response.data;
+                this.props.stateHandler("isLoggedIn", true);
+                this.props.stateHandler("email", email);
+                this.props.stateHandler("firstName", firstName);
+                this.props.stateHandler("lastName", lastName);
+                this.props.stateHandler("school", school);
+                this.props.history.push("/");
+            })
+            .catch(ex => {
+                alert("Wrong Email or Password!");
+            });
     };
     render() {
         return (
-            <div>
+            <div className="registerBlock">
                 <h1>Register</h1>
                 <form onSubmit={this.handleSubmit}>
                     {this.renderInput("email", "Email: ")}

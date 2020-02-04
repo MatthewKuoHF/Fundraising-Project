@@ -30,13 +30,14 @@ class Login extends Component {
             .update(this.state.password[0])
             .digest("hex");
 
-        http.post(config.apiUrl + "login", {
+        http.post(config.apiUrl + "/login", {
             email: this.state.email,
             password: hashPwd
         })
             .then(response => {
                 const { email, firstName, lastName, school } = response.data;
                 this.props.stateHandler("isLoggedIn", true);
+                this.props.stateHandler("email", email);
                 this.props.stateHandler("firstName", firstName);
                 this.props.stateHandler("lastName", lastName);
                 this.props.stateHandler("school", school);
@@ -78,23 +79,25 @@ class Login extends Component {
                         />
                     </FormGroup>
                     <br />
-                    <Button
-                        className="submit"
-                        block
-                        disabled={
-                            !this.validateForm(
-                                this.state.email,
-                                this.state.password
-                            )
-                        }
-                        type="submit"
-                        onClick={e => this.handleSubmit(e)}
-                    >
-                        Login
-                    </Button>
-                    <Button className="submit">
-                        <Link to="/register">Register</Link>
-                    </Button>
+                    <div className="links">
+                        <Button
+                            className="submit"
+                            block
+                            disabled={
+                                !this.validateForm(
+                                    this.state.email,
+                                    this.state.password
+                                )
+                            }
+                            type="submit"
+                            onClick={e => this.handleSubmit(e)}
+                        >
+                            Login
+                        </Button>
+                        <Link className="register" to="/register">
+                            Register
+                        </Link>
+                    </div>
                 </form>
                 <h1>Login: {this.props.isLoggedIn ? "True" : "False"}</h1>
             </div>

@@ -7,6 +7,7 @@ import Main from "./components/Main/Main";
 import Register from "./components/Register/Register";
 
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 //import logo from './logo.svg';
 import Project from "./components/Project/Project";
 

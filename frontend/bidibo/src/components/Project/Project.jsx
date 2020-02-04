@@ -1,12 +1,13 @@
 import React from "react";
 
 class Project extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            id: props.match.params.id
-        };
-    }
+    state = {
+        id: this.props.match.params.id,
+        title: "",
+        category: "",
+        tag: []
+    };
+    componentDidMount() {}
     render() {
         return (
             <div>

@@ -11,7 +11,7 @@ install lodash@4.17.10<br />
 install joi-browser@13.4.0<br />
 install react-toastify@4.1<br />
 (install @sentry/browser@5.11.2)<br />
-create httpService<br />
+Login->Error(breadcrum)<br />
 <br />
 for node:<br />
 `npm install node-gyp -g`<br />
