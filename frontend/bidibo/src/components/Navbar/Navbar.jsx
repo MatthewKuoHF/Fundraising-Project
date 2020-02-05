@@ -1,9 +1,17 @@
+//https://react-bootstrap.netlify.com/components/navbar/#navbars
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
-
+import {
+    NavDropdown,
+    Navbar,
+    Nav,
+    Form,
+    FormControl,
+    Button
+} from "react-bootstrap";
 import "./Navbar.css";
 
-class Navbar extends React.Component {
+class NavbarComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -16,41 +24,48 @@ class Navbar extends React.Component {
 
     render() {
         let InOrOut = this.props.isLoggedIn ? (
-            <li>
-                <a href="/" onClick={this.singOut}>
-                    Sign out
-                </a>
-            </li>
+            <a href="/" onClick={this.singOut}>
+                Sign out
+            </a>
         ) : (
-            <NavLink to="/login">
-                <li>Sign in</li>
-            </NavLink>
+            <NavLink to="/login">Sign in</NavLink>
         );
-
         return (
             <header>
-                <div className="container">
-                    <NavLink to="/">
-                        <h1 className="logo">Fundraising</h1>
-                    </NavLink>
-                    <nav>
-                        <ul>
-                            <NavLink to="/">
-                                <li>Home</li>
-                            </NavLink>
-                            <NavLink to="/category">
-                                <li>Category</li>
-                            </NavLink>
-                            <NavLink to="/">
-                                <li>Upload</li>
-                            </NavLink>
+                <Navbar bg="blue" expand="lg">
+                    <Navbar.Brand>
+                        <Link to="/">FUNDRAISING</Link>
+                    </Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav" className="links">
+                        <Nav className="mr-auto">
+                            <Nav>
+                                <Link to="/">Home</Link>
+                            </Nav>
+                            <NavDropdown
+                                title="Category"
+                                id="basic-nav-dropdown"
+                            >
+                                <NavDropdown.Item href="#action/3.1">
+                                    Software
+                                </NavDropdown.Item>
+                                <NavDropdown.Item href="#action/3.2">
+                                    Film
+                                </NavDropdown.Item>
+                                <NavDropdown.Item href="#action/3.3">
+                                    Photography
+                                </NavDropdown.Item>
+                            </NavDropdown>
+                            <Nav>
+                                <Link to="/upload">Upload</Link>
+                            </Nav>
                             {InOrOut}
-                        </ul>
-                    </nav>
-                </div>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Navbar>
             </header>
         );
     }
 }
 
-export default Navbar;
+export default NavbarComponent;

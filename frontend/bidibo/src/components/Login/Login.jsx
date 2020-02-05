@@ -79,7 +79,7 @@ class Login extends Component {
                         />
                     </FormGroup>
                     <br />
-                    <div className="links">
+                    <div className="register">
                         <Button
                             className="submit"
                             block

@@ -1,7 +1,7 @@
 import { Route, Switch, Redirect } from "react-router-dom";
 import React from "react";
 
-import Navbar from "./components/Navbar/Navbar";
+import NavbarComponent from "./components/Navbar/Navbar";
 import Login from "./components/Login/Login";
 import Main from "./components/Main/Main";
 import Register from "./components/Register/Register";
@@ -34,7 +34,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <Navbar
+                <NavbarComponent
                     isLoggedIn={this.state.isLoggedIn}
                     stateHandler={this.updateState}
                 />
