@@ -12,6 +12,7 @@ install joi-browser@13.4.0<br />
 install react-toastify@4.1<br />
 (install @sentry/browser@5.11.2)<br />
 Login->Error(breadcrum)<br />
+Use carousal as image slider<br />
 <br />
 for node:<br />
 `npm install node-gyp -g`<br />

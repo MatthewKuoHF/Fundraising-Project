@@ -24,6 +24,7 @@ class Main extends React.Component {
             .then(response => {
                 const { data: projects } = response;
                 this.setState({ projects });
+                this.props.stateHandler("projects", projects);
             })
             .catch(ex => {
                 console.log(ex);

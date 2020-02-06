@@ -20,7 +20,8 @@ class App extends React.Component {
             lastName: "",
             school: "",
             isLoggedIn:
-                localStorage.getItem("isLoggedIn") === "true" ? true : false
+                localStorage.getItem("isLoggedIn") === "true" ? true : false,
+            projects: []
         };
         this.updateState = this.updateState.bind(this);
     }
@@ -28,7 +29,7 @@ class App extends React.Component {
         this.setState({
             [name]: value
         });
-        localStorage.setItem("isLoggedIn", value);
+        if (name === "isLoggedIn") localStorage.setItem("isLoggedIn", value);
     }
 
     render() {
@@ -48,6 +49,7 @@ class App extends React.Component {
                                 <Project
                                     isLoggedIn={this.state.isLoggedIn}
                                     stateHandler={this.updateState}
+                                    projects={this.state.projects}
                                     {...props}
                                 />
                             )}

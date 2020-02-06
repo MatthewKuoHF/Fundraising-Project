@@ -1,0 +1,19 @@
+.project {
+    width: 98%;
+    margin: auto;
+}
+#prev {
+    width: 6% !important;
+    text-align: center;
+}
+
+#title {
+    font-size: 3rem;
+}
+
+.carousel {
+    width: 40rem;
+    height: 30rem;
+    margin: 0rem 1.25rem 0rem 0rem;
+    float: left;
+}
