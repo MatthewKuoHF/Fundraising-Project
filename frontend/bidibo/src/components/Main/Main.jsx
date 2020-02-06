@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { Table } from "react-bootstrap";
 import SimpleImageSlider from "react-simple-image-slider";
 import "./Main.css";
-
 class Main extends React.Component {
     // constructor(props) {
     //     super(props);
@@ -32,6 +31,10 @@ class Main extends React.Component {
     }
 
     render() {
+        const wordStyle = {
+            textAlign: "left",
+            verticalAlign: "middle"
+        };
         return (
             <div className="main">
                 <Table striped bordered hover>
@@ -61,20 +64,20 @@ class Main extends React.Component {
                                             showNavs={false}
                                         />
                                     </td>
-                                    <td>
+                                    <td style={wordStyle}>
                                         <Link to={`/project/${project.id}`}>
-                                            {project.title}{" "}
+                                            <h4>{project.title}</h4>
                                         </Link>
                                     </td>
-                                    <td>
+                                    <td style={wordStyle}>
                                         {project.briefDescription.map(line => {
                                             return <p>{line}</p>;
                                         })}
                                     </td>
-                                    <td>
+                                    <td style={wordStyle}>
                                         <p>{project.author}</p>
                                     </td>
-                                    <td>
+                                    <td style={wordStyle}>
                                         <p>{project.category}</p>
                                     </td>
                                 </tr>

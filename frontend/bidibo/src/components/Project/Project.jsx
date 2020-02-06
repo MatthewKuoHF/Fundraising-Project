@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Carousel } from "react-bootstrap";
+import { Button, Card, Carousel, Container, Row, Col } from "react-bootstrap";
 import "./Project.css";
 import Like from "../common/like";
 import http from "../../services/httpService";
@@ -13,7 +13,11 @@ class Project extends React.Component {
         id: this.props.match.params.id,
         index: Number(this.props.match.params.id) - 1,
         userId: "",
+        investment: null,
         project: {}
+    };
+    handleOnChange = target => {
+        this.setState({ investment: target.value });
     };
     componentDidMount() {
         const { index } = this.state;
@@ -23,7 +27,6 @@ class Project extends React.Component {
                     const { data: projects } = response;
                     const project = projects[index];
                     this.setState({ project });
-                    console.log(this.state.project.images.length);
                 })
                 .catch(ex => {
                     console.log(ex);
@@ -44,46 +47,116 @@ class Project extends React.Component {
                     <Card style={{ width: "100%" }}>
                         {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
                         <Card.Body>
-                            <Card.Title id="title">
-                                {this.state.project.title}
-                            </Card.Title>
-                            <Carousel interval={0}>
-                                {this.state.project.images === undefined
-                                    ? null
-                                    : this.state.project.images.map(image => {
-                                          return (
-                                              <Carousel.Item>
-                                                  <img
-                                                      className="d-block w-100"
-                                                      id="slides"
-                                                      src={image}
-                                                  />
-                                              </Carousel.Item>
-                                          );
-                                      })}
-                            </Carousel>
-                            <table>
-                                <tbody>
-                                    <tr>author: {this.state.project.author}</tr>
-                                    <tr>
-                                        category:{" "}
-                                        <Link
-                                            to={
-                                                "/category/" +
-                                                this.state.project.category
-                                            }
-                                        >
-                                            {this.state.project.category}
-                                        </Link>
-                                    </tr>
-                                    <tr>
-                                        Invest: <input type="number"></input>
-                                        <button type="submit">Go!</button>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            {/* <Card.Text>1</Card.Text>
+                            <div>
+                                <Card.Title id="title">
+                                    {this.state.project.title}
+                                </Card.Title>
+                                <Container
+                                    style={{
+                                        marginLeft: "0px"
+                                        // marginRight: "0px",
+                                        // paddingLeft: "0px",
+                                        // paddingRight: "0px"
+                                    }}
+                                >
+                                    <Row>
+                                        <Col sm={8}>
+                                            <Carousel
+                                                interval={0}
+                                                // style={{ float: "left" }}
+                                            >
+                                                {this.state.project.images ===
+                                                undefined
+                                                    ? null
+                                                    : this.state.project.images.map(
+                                                          image => {
+                                                              return (
+                                                                  <Carousel.Item>
+                                                                      <img
+                                                                          className="d-block w-100"
+                                                                          id="slides"
+                                                                          src={
+                                                                              image
+                                                                          }
+                                                                      />
+                                                                  </Carousel.Item>
+                                                              );
+                                                          }
+                                                      )}
+                                            </Carousel>
+                                        </Col>
+                                        <Col sm={4}>
+                                            <table id="details">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            author:{" "}
+                                                            {
+                                                                this.state
+                                                                    .project
+                                                                    .author
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            category:{" "}
+                                                            <Link
+                                                                to={
+                                                                    "/category/" +
+                                                                    this.state
+                                                                        .project
+                                                                        .category
+                                                                }
+                                                            >
+                                                                {
+                                                                    this.state
+                                                                        .project
+                                                                        .category
+                                                                }
+                                                            </Link>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Invest:{" $ "}
+                                                            <input
+                                                                type="number"
+                                                                name="invest"
+                                                                value={
+                                                                    this.state
+                                                                        .investment
+                                                                }
+                                                                onChange={e =>
+                                                                    this.handleOnChange(
+                                                                        e.target
+                                                                    )
+                                                                }
+                                                                style={{
+                                                                    width:
+                                                                        "50%",
+                                                                    marginRight:
+                                                                        "0.5rem"
+                                                                }}
+                                                            ></input>
+                                                            <button
+                                                                type="submit"
+                                                                style={{
+                                                                    width: "20%"
+                                                                }}
+                                                            >
+                                                                Go!
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                                {/* <Card.Text>1</Card.Text>
                             <Card.Text>2</Card.Text> */}
+                            </div>
                         </Card.Body>
                     </Card>
                 </div>

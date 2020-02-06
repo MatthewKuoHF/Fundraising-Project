@@ -17,3 +17,9 @@
     margin: 0rem 1.25rem 0rem 0rem;
     float: left;
 }
+
+#details {
+    width: 100%;
+    float: right;
+    font-size: 20px;
+}
