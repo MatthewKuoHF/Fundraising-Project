@@ -1,3 +1,11 @@
+categoryList=[
+    "Software",
+    "Film",
+    "Photography",
+    "Games",
+    "Music"
+]
+
 projectList = [
     {
         "id": "1",
@@ -20,7 +28,8 @@ projectList = [
             "So we provide the platform for students to share their projects",
             "Furthermore, other fellow students can invest on other projects they find interesting"
         ],
-        "author": "Matthew Kuo"
+        "author": "Matthew Kuo",
+        "authorId": 1
     },
     {
         "id": 2,
@@ -39,6 +48,7 @@ projectList = [
             "Discount for students",
             "$5/m!"
         ],
-        "author": "Spotify Inc."
+        "author": "Spotify Inc.",
+        "authorId": 2
     }
 ]

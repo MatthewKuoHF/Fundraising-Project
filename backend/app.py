@@ -128,6 +128,12 @@ def get_projects():
     projects = pj.projectList
     return jsonify(projects)
 
+# get all categories
+@app.route('/categories', methods=['GET'])
+def get_categories():
+    categories = pj.categoryList
+    return jsonify(categories)
+
 # get single project
 @app.route('/project/<id>', methods=['GET'])
 def get_project(id: int):

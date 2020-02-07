@@ -9,13 +9,27 @@ import {
     FormControl,
     Button
 } from "react-bootstrap";
+import http from "../../services/httpService";
+import config from "../../config.json";
 import "./Navbar.css";
 
 class NavbarComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            categories: []
+        };
         this.singOut = this.singOut.bind(this);
+    }
+    componentDidMount() {
+        http.get(config.apiUrl + "/categories")
+            .then(response => {
+                const { data: categories } = response;
+                this.setState({ categories });
+            })
+            .catch(ex => {
+                console.log(ex);
+            });
     }
     singOut() {
         localStorage.setItem("isLoggedIn", false);
@@ -24,40 +38,64 @@ class NavbarComponent extends React.Component {
 
     render() {
         let InOrOut = this.props.isLoggedIn ? (
-            <a href="/" onClick={this.singOut}>
+            <a href="/" onClick={this.singOut} id="navlink">
                 Sign out
             </a>
         ) : (
-            <NavLink to="/login">Sign in</NavLink>
+            <NavLink to="/login" id="navlink">
+                Sign in
+            </NavLink>
         );
         return (
             <header>
                 <Navbar bg="blue" expand="lg">
                     <Navbar.Brand>
-                        <Link to="/">FUNDRAISING</Link>
+                        <Link to="/" id="navlink">
+                            FUNDRAISING
+                        </Link>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav" className="links">
                         <Nav className="mr-auto">
                             <Nav>
-                                <Link to="/">Home</Link>
+                                <Link to="/" id="navlink">
+                                    Home
+                                </Link>
                             </Nav>
                             <NavDropdown
-                                title="Category"
+                                title={<span id="navlink">Category</span>}
                                 id="basic-nav-dropdown"
                             >
-                                <NavDropdown.Item href="#action/3.1">
+                                {this.state.categories.length === 0
+                                    ? null
+                                    : this.state.categories.map(category => {
+                                          return (
+                                              <NavDropdown.Item>
+                                                  <Link
+                                                      to={
+                                                          "/category/" +
+                                                          category
+                                                      }
+                                                  >
+                                                      {category}
+                                                  </Link>
+                                              </NavDropdown.Item>
+                                          );
+                                      })}
+                                {/* <NavDropdown.Item href="/category/Software">
                                     Software
                                 </NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.2">
+                                <NavDropdown.Item href="/category/Film">
                                     Film
                                 </NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.3">
+                                <NavDropdown.Item href="/category/Photography">
                                     Photography
-                                </NavDropdown.Item>
+                                </NavDropdown.Item> */}
                             </NavDropdown>
                             <Nav>
-                                <Link to="/upload">Upload</Link>
+                                <Link to="/upload" id="navlink">
+                                    Upload
+                                </Link>
                             </Nav>
                             {InOrOut}
                         </Nav>

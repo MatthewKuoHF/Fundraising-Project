@@ -1,5 +1,14 @@
 import React from "react";
-import { Button, Card, Carousel, Container, Row, Col } from "react-bootstrap";
+import {
+    Button,
+    Card,
+    Carousel,
+    Container,
+    Row,
+    Col,
+    Tabs,
+    Tab
+} from "react-bootstrap";
 import "./Project.css";
 import Like from "../common/like";
 import http from "../../services/httpService";
@@ -13,7 +22,7 @@ class Project extends React.Component {
         id: this.props.match.params.id,
         index: Number(this.props.match.params.id) - 1,
         userId: "",
-        investment: null,
+        investment: undefined,
         project: {}
     };
     handleOnChange = target => {
@@ -33,7 +42,6 @@ class Project extends React.Component {
                 });
         } else {
             this.setState({ project: this.props.projects[index] });
-            console.log(this.state.project);
         }
     }
     render() {
@@ -125,7 +133,8 @@ class Project extends React.Component {
                                                                 name="invest"
                                                                 value={
                                                                     this.state
-                                                                        .investment
+                                                                        .investment ||
+                                                                    ""
                                                                 }
                                                                 onChange={e =>
                                                                     this.handleOnChange(
@@ -160,7 +169,22 @@ class Project extends React.Component {
                         </Card.Body>
                     </Card>
                 </div>
-                <div className="lower">lower</div>
+                <div className="lower">
+                    <Tabs
+                        defaultActiveKey="profile"
+                        id="uncontrolled-tab-example"
+                    >
+                        <Tab eventKey="home" title="Home">
+                            <Like />
+                        </Tab>
+                        <Tab eventKey="profile" title="Profile">
+                            <Like />
+                        </Tab>
+                        <Tab eventKey="contact" title="Contact">
+                            <Like />
+                        </Tab>
+                    </Tabs>
+                </div>
             </div>
         );
     }

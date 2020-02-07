@@ -75,10 +75,18 @@ class Main extends React.Component {
                                         })}
                                     </td>
                                     <td style={wordStyle}>
-                                        <p>{project.author}</p>
+                                        <Link
+                                            to={"/author/" + project.authorId}
+                                        >
+                                            {project.author}
+                                        </Link>
                                     </td>
                                     <td style={wordStyle}>
-                                        <p>{project.category}</p>
+                                        <Link
+                                            to={"/category/" + project.category}
+                                        >
+                                            {project.category}
+                                        </Link>
                                     </td>
                                 </tr>
                             );

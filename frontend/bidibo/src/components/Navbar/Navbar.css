@@ -5,7 +5,7 @@
 }
 .nav-link {
     font-size: 20px;
-    color: white !important;
+    /* color: white !important; */
 }
 li {
     font-size: 20px;
@@ -22,6 +22,10 @@ header {
 }
 .links {
     float: right !important;
+}
+
+#navlink {
+    color: white !important;
 }
 
 header::after {
@@ -55,7 +59,7 @@ nav {
 } */
 
 nav a {
-    color: rgb(255, 255, 255);
+    /* color: rgb(255, 255, 255); */
     text-decoration: none;
     /* text-transform: uppercase; */
     font-size: 20px;
@@ -63,7 +67,7 @@ nav a {
 }
 
 nav a:hover {
-    color: white;
+    /* color: white; */
     font-weight: bold;
 }
 
