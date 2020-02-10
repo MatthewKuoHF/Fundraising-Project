@@ -52,7 +52,6 @@ class App extends React.Component {
                         isLoggedIn={this.state.isLoggedIn}
                         stateHandler={this.updateState}
                         email={this.state.email}
-                        categories={this.state.categories}
                     />
                 </div>
                 <div style={{ height: "4rem" }}></div>
@@ -100,9 +99,7 @@ class App extends React.Component {
                                             float: "left"
                                         }}
                                     >
-                                        <Search
-                                            categories={this.state.categories}
-                                        />
+                                        <Search />
                                     </div>
                                     <div
                                         style={{ float: "right", width: "87%" }}
