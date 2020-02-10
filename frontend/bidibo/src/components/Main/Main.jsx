@@ -71,7 +71,15 @@ class Main extends React.Component {
                                     </td>
                                     <td style={wordStyle}>
                                         {project.briefDescription.map(line => {
-                                            return <p>{line}</p>;
+                                            return (
+                                                <p
+                                                    key={project.briefDescription.indexOf(
+                                                        line
+                                                    )}
+                                                >
+                                                    {line}
+                                                </p>
+                                            );
                                         })}
                                     </td>
                                     <td style={wordStyle}>

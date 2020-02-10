@@ -10,6 +10,9 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 //import logo from './logo.svg';
 import Project from "./components/Project/Project";
+import Search from "./components/Search/Search";
+import http from "./services/httpService";
+import config from "./config.json";
 
 class App extends React.Component {
     constructor(props) {
@@ -21,10 +24,12 @@ class App extends React.Component {
             school: "",
             isLoggedIn:
                 localStorage.getItem("isLoggedIn") === "true" ? true : false,
-            projects: []
+            projects: [],
+            filter: []
         };
         this.updateState = this.updateState.bind(this);
     }
+    componentDidMount() {}
     updateState(name, value) {
         this.setState({
             [name]: value
@@ -35,10 +40,22 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <NavbarComponent
-                    isLoggedIn={this.state.isLoggedIn}
-                    stateHandler={this.updateState}
-                />
+                <div
+                    style={{
+                        position: "fixed",
+                        top: "0",
+                        width: "100%",
+                        zIndex: "999"
+                    }}
+                >
+                    <NavbarComponent
+                        isLoggedIn={this.state.isLoggedIn}
+                        stateHandler={this.updateState}
+                        email={this.state.email}
+                        categories={this.state.categories}
+                    />
+                </div>
+                <div style={{ height: "4rem" }}></div>
                 {this.state.firstName ? "Hi! " + this.state.firstName : ""}
                 <div className="content">
                     <Switch>
@@ -76,16 +93,41 @@ class App extends React.Component {
                         <Route
                             path="/"
                             render={() => (
-                                <Main
-                                    isLoggedIn={this.state.isLoggedIn}
-                                    stateHandler={this.updateState}
-                                />
+                                <div>
+                                    <div
+                                        style={{
+                                            width: "13%",
+                                            float: "left"
+                                        }}
+                                    >
+                                        <Search
+                                            categories={this.state.categories}
+                                        />
+                                    </div>
+                                    <div
+                                        style={{ float: "right", width: "87%" }}
+                                    >
+                                        <Main
+                                            isLoggedIn={this.state.isLoggedIn}
+                                            stateHandler={this.updateState}
+                                        />
+                                    </div>
+                                </div>
                             )}
                         />
                     </Switch>
                 </div>
-                <footer>
-                    <h1>Footer</h1>
+                <div style={{ height: "3rem" }}></div>
+                <footer
+                    style={{
+                        position: "fixed",
+                        width: "100%",
+                        bottom: "0",
+                        marginBottom: "0px",
+                        background: "blue"
+                    }}
+                >
+                    <h3 style={{ color: "white" }}>Footer</h3>
                 </footer>
             </div>
         );

@@ -28,6 +28,9 @@ class Project extends React.Component {
     handleOnChange = target => {
         this.setState({ investment: target.value });
     };
+    handleClick = () => {
+        this.props.history.goBack();
+    };
     componentDidMount() {
         const { index } = this.state;
         if (!this.props.projects.length) {
@@ -47,9 +50,13 @@ class Project extends React.Component {
     render() {
         return (
             <div className="project">
-                {this.props.isLoggedIn ? "True" : "False"}
+                {/* {this.props.isLoggedIn ? "True" : "False"} */}
                 <div className="upper">
-                    <Button variant="secondary" id="prev">
+                    <Button
+                        variant="secondary"
+                        id="prev"
+                        onClick={this.handleClick}
+                    >
                         <i className="fa fa-arrow-left" aria-hidden="true"></i>
                     </Button>
                     <Card style={{ width: "100%" }}>
@@ -68,7 +75,7 @@ class Project extends React.Component {
                                     }}
                                 >
                                     <Row>
-                                        <Col sm={8}>
+                                        <Col sm={8} md={8}>
                                             <Carousel
                                                 interval={0}
                                                 // style={{ float: "left" }}
@@ -79,7 +86,11 @@ class Project extends React.Component {
                                                     : this.state.project.images.map(
                                                           image => {
                                                               return (
-                                                                  <Carousel.Item>
+                                                                  <Carousel.Item
+                                                                      key={this.state.project.images.indexOf(
+                                                                          image
+                                                                      )}
+                                                                  >
                                                                       <img
                                                                           className="d-block w-100"
                                                                           id="slides"
@@ -93,7 +104,7 @@ class Project extends React.Component {
                                                       )}
                                             </Carousel>
                                         </Col>
-                                        <Col sm={4}>
+                                        <Col sm={4} md={4}>
                                             <table id="details">
                                                 <tbody>
                                                     <tr>
@@ -143,7 +154,7 @@ class Project extends React.Component {
                                                                 }
                                                                 style={{
                                                                     width:
-                                                                        "50%",
+                                                                        "7rem",
                                                                     marginRight:
                                                                         "0.5rem"
                                                                 }}
@@ -156,6 +167,33 @@ class Project extends React.Component {
                                                             >
                                                                 Go!
                                                             </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div
+                                                                style={{
+                                                                    border:
+                                                                        "solid",
+                                                                    borderRadius:
+                                                                        "10px 10px 10px 10px",
+                                                                    borderWidth:
+                                                                        "2px",
+                                                                    width:
+                                                                        "11rem",
+                                                                    backgroundColor:
+                                                                        "blue",
+                                                                    borderColor:
+                                                                        "blue",
+                                                                    color:
+                                                                        "white",
+                                                                    cursor:
+                                                                        "pointer"
+                                                                }}
+                                                            >
+                                                                <Like /> Like
+                                                                this proejct
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -171,17 +209,59 @@ class Project extends React.Component {
                 </div>
                 <div className="lower">
                     <Tabs
-                        defaultActiveKey="profile"
+                        defaultActiveKey="description"
                         id="uncontrolled-tab-example"
                     >
-                        <Tab eventKey="home" title="Home">
-                            <Like />
+                        <Tab eventKey="description" title="Description">
+                            <Card style={{ width: "100%" }}>
+                                <Card.Body>
+                                    <div>
+                                        <Card.Title id="title">
+                                            <h3>{this.state.project.title}</h3>
+                                        </Card.Title>
+                                        {this.state.project.description ===
+                                        undefined
+                                            ? ""
+                                            : this.state.project.description.map(
+                                                  line => {
+                                                      return (
+                                                          <p
+                                                              key={this.state.project.description.indexOf(
+                                                                  line
+                                                              )}
+                                                          >
+                                                              {line}
+                                                          </p>
+                                                      );
+                                                  }
+                                              )}
+                                    </div>
+                                </Card.Body>
+                            </Card>
                         </Tab>
-                        <Tab eventKey="profile" title="Profile">
-                            <Like />
+                        <Tab eventKey="trend" title="Trend">
+                            <Card style={{ width: "100%" }}>
+                                <Card.Body>
+                                    <div>
+                                        <Card.Title id="title">
+                                            Trend
+                                        </Card.Title>
+                                        <p>placeholder</p>
+                                    </div>
+                                </Card.Body>
+                            </Card>
                         </Tab>
-                        <Tab eventKey="contact" title="Contact">
-                            <Like />
+                        <Tab eventKey="about" title="About">
+                            <Card style={{ width: "100%" }}>
+                                <Card.Body>
+                                    <div>
+                                        <Card.Title id="title">
+                                            About Us
+                                        </Card.Title>
+                                        <p>placeholder</p>
+                                    </div>
+                                </Card.Body>
+                            </Card>
                         </Tab>
                     </Tabs>
                 </div>

@@ -37,15 +37,16 @@ class NavbarComponent extends React.Component {
     }
 
     render() {
-        let InOrOut = this.props.isLoggedIn ? (
-            <a href="/" onClick={this.singOut} id="navlink">
-                Sign out
-            </a>
-        ) : (
-            <NavLink to="/login" id="navlink">
-                Sign in
-            </NavLink>
-        );
+        let InOrOut =
+            this.props.isLoggedIn && this.props.email !== "" ? (
+                <a href="/" onClick={this.singOut} id="navlink">
+                    Sign out
+                </a>
+            ) : (
+                <NavLink to="/login" id="navlink">
+                    Sign in
+                </NavLink>
+            );
         return (
             <header>
                 <Navbar bg="blue" expand="lg">
@@ -70,7 +71,11 @@ class NavbarComponent extends React.Component {
                                     ? null
                                     : this.state.categories.map(category => {
                                           return (
-                                              <NavDropdown.Item>
+                                              <NavDropdown.Item
+                                                  key={this.state.categories.indexOf(
+                                                      category
+                                                  )}
+                                              >
                                                   <Link
                                                       to={
                                                           "/category/" +
