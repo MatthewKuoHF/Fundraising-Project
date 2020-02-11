@@ -18,6 +18,7 @@ class Main extends React.Component {
             .then(response => {
                 const { data: projects } = response;
                 this.setState({ projects });
+                this.setState({ filteredProjects: projects });
                 this.props.stateHandler("projects", projects);
             })
             .catch(ex => {
@@ -25,9 +26,11 @@ class Main extends React.Component {
             });
     }
     handleChange = e => {
-        console.log(e.target.type);
+        let filtered = [...this.state.projects];
+        let filteredCategories = [...this.state.filteredCategories];
+        let filteredText = this.state.filteredText;
         if (e.target.type === "checkbox") {
-            let filteredCategories = [...this.state.filteredCategories];
+            filteredCategories = [...this.state.filteredCategories];
             if (e.target.checked === true) {
                 filteredCategories.push(e.target.value);
             }
@@ -39,9 +42,25 @@ class Main extends React.Component {
             this.setState({ filteredCategories });
         }
         if (e.target.type === "text") {
-            let filteredText = e.target.value;
+            filteredText = e.target.value;
             this.setState({ filteredText });
         }
+        if (filteredCategories.length) {
+            filtered = this.state.projects.filter(m =>
+                filteredCategories.includes(m.category)
+            );
+        }
+
+        if (filteredText.length) {
+            filtered = this.state.projects.filter(m =>
+                m.title.toLowerCase().startsWith(filteredText.toLowerCase())
+            );
+        }
+        if (filteredCategories.length === 0 && filteredText.length === 0) {
+            filtered = this.state.projects;
+        }
+        console.log(filtered);
+        this.setState({ filteredProjects: filtered });
     };
     render() {
         const wordStyle = {
@@ -70,7 +89,7 @@ class Main extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.projects.map(project => {
+                            {this.state.filteredProjects.map(project => {
                                 const images = project.images;
                                 let imageList = [];
                                 images.map(image => {
