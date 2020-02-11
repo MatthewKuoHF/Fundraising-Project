@@ -93,22 +93,10 @@ class App extends React.Component {
                             path="/"
                             render={() => (
                                 <div>
-                                    <div
-                                        style={{
-                                            width: "13%",
-                                            float: "left"
-                                        }}
-                                    >
-                                        <Search />
-                                    </div>
-                                    <div
-                                        style={{ float: "right", width: "87%" }}
-                                    >
-                                        <Main
-                                            isLoggedIn={this.state.isLoggedIn}
-                                            stateHandler={this.updateState}
-                                        />
-                                    </div>
+                                    <Main
+                                        isLoggedIn={this.state.isLoggedIn}
+                                        stateHandler={this.updateState}
+                                    />
                                 </div>
                             )}
                         />

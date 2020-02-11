@@ -92,7 +92,7 @@ class Project extends React.Component {
                                                                       )}
                                                                   >
                                                                       <img
-                                                                          className="d-block w-100"
+                                                                          className="d-block w-100 centered-and-cropped"
                                                                           id="slides"
                                                                           src={
                                                                               image

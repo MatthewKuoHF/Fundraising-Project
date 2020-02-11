@@ -3,22 +3,17 @@ import http from "../../services/httpService";
 import config from "../../config.json";
 import { Link } from "react-router-dom";
 import { Table } from "react-bootstrap";
+import Search from "../Search/Search";
 import SimpleImageSlider from "react-simple-image-slider";
 import "./Main.css";
 class Main extends React.Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         items: []
-    //     };
-    // }
     state = {
-        projects: []
+        projects: [],
+        filteredCategories: [],
+        filteredText: "",
+        filteredProjects: []
     };
     componentDidMount() {
-        // fetch("https://jsonplaceholder.typicode.com/todos")
-        //     .then(data => data.json())
-        //     .then(json => this.setState({ items: json }));
         http.get(config.apiUrl + "/project")
             .then(response => {
                 const { data: projects } = response;
@@ -29,7 +24,25 @@ class Main extends React.Component {
                 console.log(ex);
             });
     }
-
+    handleChange = e => {
+        console.log(e.target.type);
+        if (e.target.type === "checkbox") {
+            let filteredCategories = [...this.state.filteredCategories];
+            if (e.target.checked === true) {
+                filteredCategories.push(e.target.value);
+            }
+            if (e.target.checked === false) {
+                filteredCategories = filteredCategories.filter(
+                    a => a !== e.target.value
+                );
+            }
+            this.setState({ filteredCategories });
+        }
+        if (e.target.type === "text") {
+            let filteredText = e.target.value;
+            this.setState({ filteredText });
+        }
+    };
     render() {
         const wordStyle = {
             textAlign: "left",
@@ -37,70 +50,88 @@ class Main extends React.Component {
         };
         return (
             <div className="main">
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Preview</th>
-                            <th>Title</th>
-                            <th>Brief Description</th>
-                            <th>Author</th>
-                            <th>Category</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.projects.map(project => {
-                            const images = project.images;
-                            let imageList = [];
-                            images.map(image => {
-                                imageList.push({ url: image });
-                            });
-                            return (
-                                <tr key={project.id}>
-                                    <td className="imgSlider">
-                                        <SimpleImageSlider
-                                            width={200}
-                                            height={200}
-                                            images={imageList}
-                                            showNavs={false}
-                                        />
-                                    </td>
-                                    <td style={wordStyle}>
-                                        <Link to={`/project/${project.id}`}>
-                                            <h4>{project.title}</h4>
-                                        </Link>
-                                    </td>
-                                    <td style={wordStyle}>
-                                        {project.briefDescription.map(line => {
-                                            return (
-                                                <p
-                                                    key={project.briefDescription.indexOf(
-                                                        line
-                                                    )}
-                                                >
-                                                    {line}
-                                                </p>
-                                            );
-                                        })}
-                                    </td>
-                                    <td style={wordStyle}>
-                                        <Link
-                                            to={"/author/" + project.authorId}
-                                        >
-                                            {project.author}
-                                        </Link>
-                                    </td>
-                                    <td style={wordStyle}>
-                                        <Link
-                                            to={"/category/" + project.category}
-                                        >
-                                            {project.category}
-                                        </Link>
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </Table>
+                <div
+                    style={{
+                        width: "13%",
+                        float: "left"
+                    }}
+                >
+                    <Search handleChange={this.handleChange} />
+                </div>
+                <div style={{ float: "right", width: "87%" }}>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Preview</th>
+                                <th>Title</th>
+                                <th>Brief Description</th>
+                                <th>Author</th>
+                                <th>Category</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.projects.map(project => {
+                                const images = project.images;
+                                let imageList = [];
+                                images.map(image => {
+                                    imageList.push({ url: image });
+                                });
+                                return (
+                                    <tr key={project.id}>
+                                        <td className="imgSlider">
+                                            <SimpleImageSlider
+                                                width={200}
+                                                height={200}
+                                                images={imageList}
+                                                showNavs={false}
+                                            />
+                                        </td>
+                                        <td style={wordStyle}>
+                                            <Link to={`/project/${project.id}`}>
+                                                <h4>{project.title}</h4>
+                                            </Link>
+                                        </td>
+                                        <td style={wordStyle}>
+                                            {project.briefDescription.map(
+                                                line => {
+                                                    return (
+                                                        <p
+                                                            key={project.briefDescription.indexOf(
+                                                                line
+                                                            )}
+                                                        >
+                                                            {line}
+                                                        </p>
+                                                    );
+                                                }
+                                            )}
+                                        </td>
+                                        <td style={wordStyle}>
+                                            <Link
+                                                to={
+                                                    "/author/" +
+                                                    project.authorId
+                                                }
+                                            >
+                                                {project.author}
+                                            </Link>
+                                        </td>
+                                        <td style={wordStyle}>
+                                            <Link
+                                                to={
+                                                    "/category/" +
+                                                    project.category
+                                                }
+                                            >
+                                                {project.category}
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </Table>
+                </div>
             </div>
         );
     }
