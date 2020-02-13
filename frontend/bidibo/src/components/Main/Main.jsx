@@ -136,14 +136,7 @@ class Main extends React.Component {
                                             </Link>
                                         </td>
                                         <td style={wordStyle}>
-                                            <Link
-                                                to={
-                                                    "/category/" +
-                                                    project.category
-                                                }
-                                            >
-                                                {project.category}
-                                            </Link>
+                                            {project.category}
                                         </td>
                                     </tr>
                                 );

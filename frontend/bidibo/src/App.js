@@ -10,9 +10,12 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 //import logo from './logo.svg';
 import Project from "./components/Project/Project";
-import Search from "./components/Search/Search";
 import http from "./services/httpService";
 import config from "./config.json";
+import Upload from "./components/Upload/Upload";
+import Author from "./components/Author/Author";
+import MyAccount from "./components/MyAccount/MyAccount";
+import LikedProjects from "./components/LikedProjects/LikedProjects";
 
 class App extends React.Component {
     constructor(props) {
@@ -55,7 +58,15 @@ class App extends React.Component {
                     />
                 </div>
                 <div style={{ height: "4rem" }}></div>
-                {this.state.firstName ? "Hi! " + this.state.firstName : ""}
+                {this.state.firstName || localStorage.getItem("firstName") ? (
+                    <h5>
+                        {"Hi! " +
+                            (this.state.firstName ||
+                                localStorage.getItem("firstName"))}
+                    </h5>
+                ) : (
+                    ""
+                )}
                 <div className="content">
                     <Switch>
                         <Redirect from="/home" to="/" />
@@ -71,10 +82,17 @@ class App extends React.Component {
                             )}
                         />
                         <Route
-                            path="/category"
-                            render={() => {
-                                return <h1>Welcome Category</h1>;
-                            }}
+                            path="/author/:id"
+                            render={props => <Author {...props} />}
+                        />
+                        <Route
+                            path="/upload"
+                            render={props => (
+                                <Upload
+                                    isLoggedIn={this.state.isLoggedIn}
+                                    {...props}
+                                />
+                            )}
                         />
                         <Route path="/login">
                             <Login
@@ -88,6 +106,12 @@ class App extends React.Component {
                                 stateHandler={this.updateState}
                                 props={this.props}
                             />
+                        </Route>
+                        <Route path="/my_account">
+                            <MyAccount />
+                        </Route>
+                        <Route path="/liked_projects">
+                            <LikedProjects />
                         </Route>
                         <Route
                             path="/"

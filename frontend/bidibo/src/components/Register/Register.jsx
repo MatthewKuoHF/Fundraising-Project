@@ -44,7 +44,6 @@ class Register extends Form {
     doSubmit = () => {
         console.log("Submitted");
         const data = { ...this.state.data };
-        //let hash = crypto.getHashes();
         let hashPwd = crypto
             .createHash("sha1")
             .update(data["password"])

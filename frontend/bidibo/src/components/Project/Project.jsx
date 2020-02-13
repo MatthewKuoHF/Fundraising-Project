@@ -110,30 +110,30 @@ class Project extends React.Component {
                                                     <tr>
                                                         <td>
                                                             author:{" "}
-                                                            {
-                                                                this.state
-                                                                    .project
-                                                                    .author
-                                                            }
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            category:{" "}
                                                             <Link
                                                                 to={
-                                                                    "/category/" +
+                                                                    "/author/" +
                                                                     this.state
                                                                         .project
-                                                                        .category
+                                                                        .authorId
                                                                 }
                                                             >
                                                                 {
                                                                     this.state
                                                                         .project
-                                                                        .category
+                                                                        .author
                                                                 }
                                                             </Link>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            category:{" "}
+                                                            {
+                                                                this.state
+                                                                    .project
+                                                                    .category
+                                                            }
                                                         </td>
                                                     </tr>
                                                     <tr>

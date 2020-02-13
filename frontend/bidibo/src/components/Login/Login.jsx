@@ -41,6 +41,11 @@ class Login extends Component {
                 this.props.stateHandler("firstName", firstName);
                 this.props.stateHandler("lastName", lastName);
                 this.props.stateHandler("school", school);
+                localStorage.setItem("isLoggedIn", true);
+                localStorage.setItem("email", email);
+                localStorage.setItem("firstName", firstName);
+                localStorage.setItem("lastName", lastName);
+                localStorage.setItem("school", school);
                 this.props.history.push("/");
             })
             .catch(ex => {

@@ -16,32 +16,54 @@ import "./Navbar.css";
 class NavbarComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            categories: []
-        };
+        this.state = {};
         this.singOut = this.singOut.bind(this);
     }
     componentDidMount() {
-        http.get(config.apiUrl + "/categories")
-            .then(response => {
-                const { data: categories } = response;
-                this.setState({ categories });
-            })
-            .catch(ex => {
-                console.log(ex);
-            });
+        // http.get(config.apiUrl + "/categories")
+        //     .then(response => {
+        //         const { data: categories } = response;
+        //         this.setState({ categories });
+        //     })
+        //     .catch(ex => {
+        //         console.log(ex);
+        //     });
     }
     singOut() {
+        this.props.stateHandler("isLoggedIn", false);
+        this.props.stateHandler("email", "");
+        this.props.stateHandler("firstName", "");
+        this.props.stateHandler("lastName", "");
+        this.props.stateHandler("school", "");
         localStorage.setItem("isLoggedIn", false);
+        localStorage.setItem("email", "");
+        localStorage.setItem("firstName", "");
+        localStorage.setItem("lastName", "");
+        localStorage.setItem("school", "");
         this.props.history.push("/");
     }
 
     render() {
         let InOrOut =
-            this.props.isLoggedIn && this.props.email !== "" ? (
-                <a href="/" onClick={this.singOut} id="navlink">
-                    Sign out
-                </a>
+            (this.props.isLoggedIn && this.props.email !== "") ||
+            localStorage.getItem("email") !== "" ? (
+                <div>
+                    <NavDropdown
+                        style={{ float: "left" }}
+                        title={<span id="navlink">Dashboard</span>}
+                        id="basic-nav-dropdown"
+                    >
+                        <NavDropdown.Item>
+                            <Link to="/my_account">My Account</Link>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item>
+                            <Link to="/liked_projects">Liked Projects</Link>
+                        </NavDropdown.Item>
+                    </NavDropdown>
+                    <a href="/" onClick={this.singOut} id="navlink">
+                        Sign out
+                    </a>
+                </div>
             ) : (
                 <NavLink to="/login" id="navlink">
                     Sign in
@@ -63,7 +85,7 @@ class NavbarComponent extends React.Component {
                                     Home
                                 </Link>
                             </Nav>
-                            <NavDropdown
+                            {/* <NavDropdown
                                 title={<span id="navlink">Category</span>}
                                 id="basic-nav-dropdown"
                             >
@@ -87,16 +109,7 @@ class NavbarComponent extends React.Component {
                                               </NavDropdown.Item>
                                           );
                                       })}
-                                {/* <NavDropdown.Item href="/category/Software">
-                                    Software
-                                </NavDropdown.Item>
-                                <NavDropdown.Item href="/category/Film">
-                                    Film
-                                </NavDropdown.Item>
-                                <NavDropdown.Item href="/category/Photography">
-                                    Photography
-                                </NavDropdown.Item> */}
-                            </NavDropdown>
+                            </NavDropdown> */}
                             <Nav>
                                 <Link to="/upload" id="navlink">
                                     Upload
