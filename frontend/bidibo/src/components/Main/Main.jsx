@@ -93,7 +93,7 @@ class Main extends React.Component {
                                 const images = project.images;
                                 let imageList = [];
                                 images.map(image => {
-                                    imageList.push({ url: image });
+                                    return imageList.push({ url: image });
                                 });
                                 return (
                                     <tr key={project.id}>

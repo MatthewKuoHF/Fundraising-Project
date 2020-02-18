@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import http from "../../services/httpService";
+import config from "../../config.json";
 import {
     convertToRaw,
     EditorState,
@@ -19,32 +21,104 @@ import { Editor } from "react-draft-wysiwyg";
 import { stateToHTML } from "draft-js-export-html";
 import "../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./Upload.css";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
+import ImageUpload from "./ImageUpload/ImageUpload";
 
 class Upload extends Component {
     constructor(props) {
         super(props);
         this.state = {
             editorState: EditorState.createEmpty(),
-            text: ""
+            title: "",
+            text: "",
+            categories: [],
+            category: "",
+            selectedFiles: [],
+            bd1: "",
+            bd2: "",
+            bd3: "",
+            briefDescription: ""
         };
+    }
+    componentDidMount() {
+        http.get(config.apiUrl + "/categories")
+            .then(response => {
+                const { data: categories } = response;
+                this.setState({ categories });
+                this.setState({ category: categories[0] });
+            })
+            .catch(ex => {
+                console.log(ex);
+            });
     }
     onEditorStateChange = editorState => {
         this.setState({
             editorState
         });
     };
+    handleOnChange = e => {
+        this.setState({ [e.target.name]: e.target.value });
+    };
+    fileSelectedHandler = e => {
+        let selectedFiles = [];
+        Array.from(e.target.files).forEach(file => {
+            selectedFiles.push(file);
+        });
+        this.setState({ selectedFiles });
+    };
     handleSubmit = e => {
         e.preventDefault();
         let text = stateToHTML(this.state.editorState.getCurrentContent());
         this.setState({ text });
+        const project = {
+            title: this.state.title,
+            category: this.state.category,
+            images: this.state.selectedFiles,
+            description: text,
+            briefDescription:
+                "<p>" +
+                this.state.bd1 +
+                "</p><br />" +
+                "<p>" +
+                this.state.bd2 +
+                "</p><br />" +
+                "<p>" +
+                this.state.bd3 +
+                "</p>",
+            email: localStorage.getItem("email")
+        };
+        let formData = new FormData();
+        formData.append("title", this.state.title);
+        formData.append("category", this.state.category);
+        formData.append("description", text);
+        formData.append(
+            "briefDescription",
+            "<p>" +
+                this.state.bd1 +
+                "</p><br />" +
+                "<p>" +
+                this.state.bd2 +
+                "</p><br />" +
+                "<p>" +
+                this.state.bd3 +
+                "</p>"
+        );
+        formData.append("email", localStorage.getItem("email"));
+        for (const file of this.state.selectedFiles) {
+            formData.append(file.name, file);
+        }
+        http.post(config.apiUrl + "/upload", formData, {
+            headers: { "Content-type": "multipart/form-data" }
+        }).then(res => {
+            console.log(res);
+        });
     };
     render() {
         const { editorState } = this.state;
         return (
             <div className="outer">
                 <div className="upload">
-                    <div style={{}}>
+                    <div>
                         <h4
                             style={{
                                 width: "auto",
@@ -59,7 +133,100 @@ class Upload extends Component {
                             type="text"
                             autoFocus
                             style={{ width: "30%" }}
+                            name="title"
+                            value={this.state.title}
+                            onChange={e => this.handleOnChange(e)}
                         ></input>
+                        <div style={{ float: "right", width: "45%" }}>
+                            <h4>Breif Description: </h4>
+                            <Form.Control
+                                placeholder="Line 1"
+                                name="bd1"
+                                value={this.state.bd1}
+                                onChange={this.handleOnChange}
+                            ></Form.Control>
+                            <Form.Control
+                                placeholder="Line 2"
+                                name="bd2"
+                                value={this.state.bd2}
+                                onChange={this.handleOnChange}
+                            ></Form.Control>
+                            <Form.Control
+                                placeholder="Line 3"
+                                name="bd3"
+                                value={this.state.bd3}
+                                onChange={this.handleOnChange}
+                            ></Form.Control>
+                            {/* <textarea
+                                placeholder="Brief Description of the Project..."
+                                style={{ height: "6rem", width: "100%" }}
+                                value={this.state.briefDescription}
+                                onChange={this.handleOnChange}
+                                name="briefDescription"
+                            ></textarea> */}
+                        </div>
+                    </div>
+                    <div style={{ marginTop: "1rem" }}>
+                        <h4
+                            style={{
+                                width: "auto",
+                                float: "left",
+                                marginRight: "1rem",
+                                textAlign: "center"
+                            }}
+                        >
+                            Category:{" "}
+                        </h4>
+                        <Form.Control
+                            as="select"
+                            style={{ width: "25%" }}
+                            name="category"
+                            onChange={e => this.handleOnChange(e)}
+                        >
+                            {this.state.categories.length === 0
+                                ? null
+                                : this.state.categories.map(category => {
+                                      return (
+                                          <option
+                                              key={this.state.categories.indexOf(
+                                                  category
+                                              )}
+                                              label={category}
+                                              value={category}
+                                          ></option>
+                                      );
+                                  })}
+                        </Form.Control>
+                    </div>
+                    <div style={{ marginTop: "1rem" }}>
+                        <h4
+                            style={{
+                                width: "auto",
+                                float: "left",
+                                marginRight: "1rem",
+                                textAlign: "center"
+                            }}
+                        >
+                            Upload Photos:{" "}
+                        </h4>
+                        <ImageUpload
+                            fileSelectedHandler={this.fileSelectedHandler}
+                        />
+                        <div
+                            style={{ marginTop: "1rem", marginBottom: "2rem" }}
+                        >
+                            {this.state.selectedFiles.length === 0
+                                ? null
+                                : this.state.selectedFiles.map((file, i) => {
+                                      return (
+                                          <img
+                                              className="previewPhotos"
+                                              key={i}
+                                              src={URL.createObjectURL(file)}
+                                          ></img>
+                                      );
+                                  })}
+                        </div>
                     </div>
 
                     <Editor

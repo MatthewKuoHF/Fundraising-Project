@@ -82,6 +82,22 @@ def add_product():
     db.session.commit()
 
     return product_schema.jsonify(new_product)
+# create a project
+@app.route('/upload', methods=['POST'])
+def upload_project():
+    # name = request.json['name']
+    # description = request.json['description']
+    # price = request.json['price']
+    # qty = request.json['qty']
+
+    # new_product = Product(name, description, price, qty)
+
+    # db.session.add(new_product)
+    # db.session.commit()
+    # print(request.files)
+    print(request.form)
+    print(request.files)
+    return jsonify(form=request.form), 200
 
 @app.route('/register', methods=['POST'])
 def add_user():

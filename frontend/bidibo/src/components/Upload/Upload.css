@@ -26,3 +26,7 @@ img {
 h6 {
     text-align: center;
 }
+.previewPhotos {
+    width: 7rem;
+    height: 7rem;
+}

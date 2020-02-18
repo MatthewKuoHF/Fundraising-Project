@@ -19,16 +19,7 @@ class NavbarComponent extends React.Component {
         this.state = {};
         this.singOut = this.singOut.bind(this);
     }
-    componentDidMount() {
-        // http.get(config.apiUrl + "/categories")
-        //     .then(response => {
-        //         const { data: categories } = response;
-        //         this.setState({ categories });
-        //     })
-        //     .catch(ex => {
-        //         console.log(ex);
-        //     });
-    }
+    componentDidMount() {}
     singOut() {
         this.props.stateHandler("isLoggedIn", false);
         this.props.stateHandler("email", "");
