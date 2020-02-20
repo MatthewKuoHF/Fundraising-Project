@@ -13,6 +13,8 @@ install react-toastify@4.1<br />
 (install @sentry/browser@5.11.2)<br />
 Login->Error(breadcrum)<br />
 Use carousal as image slider<br />
+20200220: Update description to a string<br />
+
 <br />
 for node:<br />
 `npm install node-gyp -g`<br />

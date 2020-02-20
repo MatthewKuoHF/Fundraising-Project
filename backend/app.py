@@ -1,4 +1,5 @@
 import sys
+import json
 sys.path.insert(1, './database')
 sys.path.insert(1, './models')
 import projects as pj
@@ -7,7 +8,7 @@ import os
 from flask_cors import CORS
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request, jsonify, Response, send_file
 from flask_pymongo import PyMongo
 from werkzeug.utils import secure_filename
 import hashlib
@@ -17,6 +18,7 @@ CORS(app)
 
 # init app
 basedir = os.path.abspath(os.path.dirname(__file__))
+apiUrl = "http://localhost:5000"
 
 # database
 app.config['UPLOAD_FOLDER'] = os.path.join(basedir, 'database/images')
@@ -74,6 +76,12 @@ product_schema = ProductSchema()
 products_schema = ProductSchema(many=True)
 user_schema = UserSchema()
 
+# # test get image
+# @app.route('/test', methods=['GET'])
+# def test():
+#     for filename in os.listdir()
+#     return jsonify(output)
+
 # create a product
 @app.route('/product', methods=['POST'])
 def add_product():
@@ -96,19 +104,37 @@ def upload_project():
     lastId = ""
     for c in cursor:
         lastId = str(int(c['id'])+1)
-    #print(lastId)
-    # print(request.form)
-    # print(request.files)
 
-    # uncomment when save to mongodb part is complete
-    # saved_filename = os.path.join(app.config['UPLOAD_FOLDER'], lastId)
-    # os.mkdir(saved_filename)
-    # for image in request.files:
-    #     filename=secure_filename(image)
-    #     ext = request.files[filename].filename.split(".")[-1]
-    #     request.files[image].save(os.path.join(saved_filename, image+"."+ext))
+    saved_filename = os.path.join(app.config['UPLOAD_FOLDER'], lastId)
+    image_url_array=[]
+    os.mkdir(saved_filename)
+    for image in request.files:
+        filename=secure_filename(image)
+        ext = request.files[filename].filename.split(".")[-1]
+        fname_with_ext = image+"."+ext
+        image_url_array.append(os.path.join(apiUrl, lastId, fname_with_ext))
+        request.files[image].save(os.path.join(saved_filename, fname_with_ext))
 
-
+    email = request.form['email']
+    command = f"""SELECT * FROM users WHERE email='{email}'"""
+    results = db.engine.execute(command)
+    author = ""
+    authorId = ""
+    for r in results:
+        author = r['firstName'] + " " + r['lastName']
+        authorId=r['id']
+    print(authorId)
+    project = {
+        'id': lastId,
+        'title': request.form['title'],
+        'category': request.form['category'],
+        'description': request.form['description'].replace("\n", ""),
+        'briefDescription': request.form['briefDescription'],
+        'images': image_url_array,
+        'author': author,
+        'authorId': str(authorId)
+    }
+    mongo.db.projects.insert_one(project)
     return jsonify(form=request.form), 200
 
 @app.route('/register', methods=['POST'])
@@ -197,6 +223,15 @@ def get_project(id: int):
     else:
         output = "No such project"
         return jsonify(), 404
+
+# get image
+@app.route('/image/<project>/<filename>', methods=['GET'])
+def get_image(project: int, filename: str):
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], project, filename)
+    try:
+        return send_file(file_path, mimetype='image'), 200
+    except:
+        return send_file(app.config['UPLOAD_FOLDER']+"/not_found.png", mimetype='image'), 404
 
 # get all product
 @app.route('/product', methods=['GET'])

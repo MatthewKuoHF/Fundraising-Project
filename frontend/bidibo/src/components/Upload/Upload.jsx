@@ -95,11 +95,9 @@ class Upload extends Component {
             "briefDescription",
             "<p>" +
                 this.state.bd1 +
-                "</p><br />" +
-                "<p>" +
+                "</p><p>" +
                 this.state.bd2 +
-                "</p><br />" +
-                "<p>" +
+                "</p><p>" +
                 this.state.bd3 +
                 "</p>"
         );

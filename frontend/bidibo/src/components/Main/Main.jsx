@@ -6,6 +6,8 @@ import { Table } from "react-bootstrap";
 import Search from "../Search/Search";
 import SimpleImageSlider from "react-simple-image-slider";
 import "./Main.css";
+import parse from "html-react-parser";
+
 class Main extends React.Component {
     state = {
         projects: [],
@@ -111,19 +113,7 @@ class Main extends React.Component {
                                             </Link>
                                         </td>
                                         <td style={wordStyle}>
-                                            {project.briefDescription.map(
-                                                line => {
-                                                    return (
-                                                        <p
-                                                            key={project.briefDescription.indexOf(
-                                                                line
-                                                            )}
-                                                        >
-                                                            {line}
-                                                        </p>
-                                                    );
-                                                }
-                                            )}
+                                            {parse(project.briefDescription)}
                                         </td>
                                         <td style={wordStyle}>
                                             <Link
@@ -142,6 +132,7 @@ class Main extends React.Component {
                                 );
                             })}
                         </tbody>
+                        <div style={{ marginBottom: "3rem" }}></div>
                     </Table>
                 </div>
             </div>
