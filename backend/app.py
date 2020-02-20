@@ -8,6 +8,8 @@ from flask_cors import CORS
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, jsonify, Response
+from flask_pymongo import PyMongo
+from werkzeug.utils import secure_filename
 import hashlib
 
 app = Flask(__name__)
@@ -17,13 +19,17 @@ CORS(app)
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # database
+app.config['UPLOAD_FOLDER'] = os.path.join(basedir, 'database/images')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
     os.path.join(basedir, 'database/db.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['MONGO_DBNAME']="Bidobo"
+app.config['MONGO_URI']='mongodb://localhost:27017/Bidobo'
 
 # init db, ma
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
+mongo = PyMongo(app)
 
 # product class/model
 class Users(db.Model):
@@ -82,21 +88,27 @@ def add_product():
     db.session.commit()
 
     return product_schema.jsonify(new_product)
+
 # create a project
 @app.route('/upload', methods=['POST'])
 def upload_project():
-    # name = request.json['name']
-    # description = request.json['description']
-    # price = request.json['price']
-    # qty = request.json['qty']
-
-    # new_product = Product(name, description, price, qty)
-
-    # db.session.add(new_product)
-    # db.session.commit()
+    cursor = mongo.db.projects.find().sort([('id', -1)]).limit(1)
+    lastId = ""
+    for c in cursor:
+        lastId = str(int(c['id'])+1)
+    #print(lastId)
+    # print(request.form)
     # print(request.files)
-    print(request.form)
-    print(request.files)
+
+    # uncomment when save to mongodb part is complete
+    # saved_filename = os.path.join(app.config['UPLOAD_FOLDER'], lastId)
+    # os.mkdir(saved_filename)
+    # for image in request.files:
+    #     filename=secure_filename(image)
+    #     ext = request.files[filename].filename.split(".")[-1]
+    #     request.files[image].save(os.path.join(saved_filename, image+"."+ext))
+
+
     return jsonify(form=request.form), 200
 
 @app.route('/register', methods=['POST'])
@@ -141,21 +153,50 @@ def login():
 # get all projects
 @app.route('/project', methods=['GET'])
 def get_projects():
-    projects = pj.projectList
-    return jsonify(projects)
+    projects = mongo.db.projects
+    output=[]
+    for p in projects.find():
+        output.append({
+            'id': p['id'], 
+            'title': p['title'], 
+            'category': p['category'], 
+            'briefDescription': p['briefDescription'], 
+            'description': p['description'], 
+            'images': p['images'],
+            'author': p['author'], 
+            'authorId': p['authorId'],
+        })
+    return jsonify(output)
 
 # get all categories
 @app.route('/categories', methods=['GET'])
 def get_categories():
-    categories = pj.categoryList
-    return jsonify(categories)
+    categories = mongo.db.categories
+    output=[]
+    for c in categories.find():
+        output.append(c['name'])
+    return jsonify(output)
 
 # get single project
 @app.route('/project/<id>', methods=['GET'])
 def get_project(id: int):
-    id=int(id)
-    project = pj.projectList[id-1]
-    return jsonify(project)
+    projects = mongo.db.projects
+    p = projects.find_one({'id': id})
+    if p:
+        output = {
+            'id': p['id'], 
+            'title': p['title'], 
+            'category': p['category'], 
+            'briefDescription': p['briefDescription'], 
+            'description': p['description'], 
+            'images': p['images'],
+            'author': p['author'], 
+            'authorId': p['authorId'],
+        }
+        return jsonify(output), 200
+    else:
+        output = "No such project"
+        return jsonify(), 404
 
 # get all product
 @app.route('/product', methods=['GET'])

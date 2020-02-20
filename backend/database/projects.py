@@ -1,9 +1,9 @@
 categoryList=[
-    "Software",
-    "Film",
-    "Photography",
-    "Games",
-    "Music"
+    { "id":1, "name":"Software"},
+    { "id":2, "name":"Film"},
+    { "id":3, "name":"Photography"},
+    { "id":4, "name":"Games"},
+    { "id":5, "name":"Music"}
 ]
 
 projectList = [

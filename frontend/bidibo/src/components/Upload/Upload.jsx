@@ -104,8 +104,10 @@ class Upload extends Component {
                 "</p>"
         );
         formData.append("email", localStorage.getItem("email"));
+        let i = 1;
         for (const file of this.state.selectedFiles) {
-            formData.append(file.name, file);
+            formData.append(i, file);
+            i += 1;
         }
         http.post(config.apiUrl + "/upload", formData, {
             headers: { "Content-type": "multipart/form-data" }
