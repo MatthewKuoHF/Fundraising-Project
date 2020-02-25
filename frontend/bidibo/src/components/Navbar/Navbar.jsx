@@ -1,16 +1,7 @@
 //https://react-bootstrap.netlify.com/components/navbar/#navbars
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
-import {
-    NavDropdown,
-    Navbar,
-    Nav,
-    Form,
-    FormControl,
-    Button
-} from "react-bootstrap";
-import http from "../../services/httpService";
-import config from "../../config.json";
+import { NavDropdown, Navbar, Nav } from "react-bootstrap";
 import "./Navbar.css";
 
 class NavbarComponent extends React.Component {

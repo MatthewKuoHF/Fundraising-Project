@@ -10,8 +10,6 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 //import logo from './logo.svg';
 import Project from "./components/Project/Project";
-import http from "./services/httpService";
-import config from "./config.json";
 import Upload from "./components/Upload/Upload";
 import Author from "./components/Author/Author";
 import MyAccount from "./components/MyAccount/MyAccount";
@@ -31,7 +29,8 @@ class App extends React.Component {
                 localStorage.getItem("isLoggedIn") === "true" ? true : false,
             projects: [],
             filter: [],
-            investAmount: ""
+            investAmount: "",
+            uid: ""
         };
         this.updateState = this.updateState.bind(this);
     }

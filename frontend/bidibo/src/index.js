@@ -5,10 +5,13 @@ import App from "./App";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import "font-awesome/css/font-awesome.css";
+import ScrollToTop from "./components/ScrollToTop";
 
 ReactDOM.render(
     <BrowserRouter>
-        <App />
+        <ScrollToTop>
+            <App />
+        </ScrollToTop>
     </BrowserRouter>,
     document.getElementById("root")
 );

@@ -17,6 +17,7 @@ marshmallow-sqlalchemy = "*"
 flask-cors = "*"
 flask-pymongo = "*"
 werkzeug = "*"
+pprint = "*"
 
 [requires]
 python_version = "3.7"

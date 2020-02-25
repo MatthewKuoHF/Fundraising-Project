@@ -35,12 +35,20 @@ class Login extends Component {
             password: hashPwd
         })
             .then(response => {
-                const { email, firstName, lastName, school } = response.data;
+                const {
+                    email,
+                    firstName,
+                    lastName,
+                    school,
+                    uid
+                } = response.data;
                 this.props.stateHandler("isLoggedIn", true);
                 this.props.stateHandler("email", email);
                 this.props.stateHandler("firstName", firstName);
                 this.props.stateHandler("lastName", lastName);
                 this.props.stateHandler("school", school);
+                this.props.stateHandler("uid", uid);
+                localStorage.setItem("uid", uid);
                 localStorage.setItem("isLoggedIn", true);
                 localStorage.setItem("email", email);
                 localStorage.setItem("firstName", firstName);

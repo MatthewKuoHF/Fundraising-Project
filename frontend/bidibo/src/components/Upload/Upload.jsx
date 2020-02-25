@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import http from "../../services/httpService";
 import config from "../../config.json";
 import {
-    convertToRaw,
     EditorState,
     fontSize,
     left,
@@ -70,23 +69,23 @@ class Upload extends Component {
         e.preventDefault();
         let text = stateToHTML(this.state.editorState.getCurrentContent());
         this.setState({ text });
-        const project = {
-            title: this.state.title,
-            category: this.state.category,
-            images: this.state.selectedFiles,
-            description: text,
-            briefDescription:
-                "<p>" +
-                this.state.bd1 +
-                "</p><br />" +
-                "<p>" +
-                this.state.bd2 +
-                "</p><br />" +
-                "<p>" +
-                this.state.bd3 +
-                "</p>",
-            email: localStorage.getItem("email")
-        };
+        // const project = {
+        //     title: this.state.title,
+        //     category: this.state.category,
+        //     images: this.state.selectedFiles,
+        //     description: text,
+        //     briefDescription:
+        //         "<p>" +
+        //         this.state.bd1 +
+        //         "</p><br />" +
+        //         "<p>" +
+        //         this.state.bd2 +
+        //         "</p><br />" +
+        //         "<p>" +
+        //         this.state.bd3 +
+        //         "</p>",
+        //     email: localStorage.getItem("email")
+        // };
         let formData = new FormData();
         formData.append("title", this.state.title);
         formData.append("category", this.state.category);
@@ -158,13 +157,6 @@ class Upload extends Component {
                                 value={this.state.bd3}
                                 onChange={this.handleOnChange}
                             ></Form.Control>
-                            {/* <textarea
-                                placeholder="Brief Description of the Project..."
-                                style={{ height: "6rem", width: "100%" }}
-                                value={this.state.briefDescription}
-                                onChange={this.handleOnChange}
-                                name="briefDescription"
-                            ></textarea> */}
                         </div>
                     </div>
                     <div style={{ marginTop: "1rem" }}>

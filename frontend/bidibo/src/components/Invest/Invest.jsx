@@ -3,6 +3,8 @@ import { Button, Form, Col, Row, InputGroup } from "react-bootstrap";
 import Cards from "react-credit-cards";
 import "./Invest.css";
 import "react-credit-cards/es/styles-compiled.css";
+import http from "../../services/httpService";
+import config from "../../config.json";
 
 class Invest extends Component {
     state = {
@@ -33,7 +35,29 @@ class Invest extends Component {
         this.setState({ [name]: value });
     };
     handleSubmit = e => {
+        e.preventDefault();
         const userEmail = localStorage.getItem("email");
+        const uid = localStorage.getItem("uid");
+        var MyDate = new Date();
+        var timestamp;
+        timestamp =
+            MyDate.getFullYear() +
+            ("0" + (MyDate.getMonth() + 1)).slice(-2) +
+            ("0" + MyDate.getDate()).slice(-2) +
+            ("0" + MyDate.getHours()).slice(-2) +
+            ("0" + MyDate.getMinutes()).slice(-2) +
+            ("0" + MyDate.getSeconds()).slice(-2);
+        const investment = {
+            timestamp: timestamp,
+            uid: uid,
+            userEmail: userEmail,
+            investAmount: this.state.investAmount,
+            investProject: this.state.id
+        };
+        http.post(config.apiUrl + "/invest", investment).then(res => {
+            console.log(res);
+        });
+        this.props.history.push("/");
     };
     componentDidMount() {
         this.setState({
@@ -187,7 +211,7 @@ class Invest extends Component {
                                     number={this.state.number}
                                 />
                             </div>
-                            <form className="inputArea">
+                            <div className="inputArea">
                                 <Form.Row>
                                     <Form.Label column sm={3}>
                                         Card Number:
@@ -251,14 +275,29 @@ class Invest extends Component {
                                         />
                                     </Col>
                                 </Form.Row>
-                            </form>
+                            </div>
                         </div>
                     </Form.Row>
                     <div style={{ width: "100%", textAlign: "center" }}>
                         <Button
                             variant="primary"
                             type="submit"
-                            onSubmit={this.handleSubmit}
+                            onClick={this.handleSubmit}
+                            // disabled={
+                            //     this.state.cvc === "" ||
+                            //     this.state.expiry === "" ||
+                            //     this.state.address === "" ||
+                            //     this.state.city === "" ||
+                            //     this.state.state === "" ||
+                            //     this.state.zip === "" ||
+                            //     this.state.name === "" ||
+                            //     this.state.firstName === "" ||
+                            //     this.state.lastName === "" ||
+                            //     this.state.number === "" ||
+                            //     this.state.phoneNumber === "" ||
+                            //     this.state.investAmount === "" ||
+                            //     this.state.email === ""
+                            // }
                         >
                             Invest
                         </Button>

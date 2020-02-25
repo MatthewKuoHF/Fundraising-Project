@@ -12,6 +12,7 @@ from flask import Flask, request, jsonify, Response, send_file
 from flask_pymongo import PyMongo
 from werkzeug.utils import secure_filename
 import hashlib
+from pprint import pprint
 
 app = Flask(__name__)
 CORS(app)
@@ -121,7 +122,6 @@ def upload_project():
     author = ""
     authorId = ""
     for r in results:
-        print(r)
         author = r['firstName'] + " " + r['lastName']
         authorId=r['id']
     project = {
@@ -135,6 +135,10 @@ def upload_project():
         'authorId': str(authorId)
     }
     mongo.db.projects.insert_one(project)
+    mongo.db.investment.insert_one({
+            "id": lastId,
+            "investment": []
+            })
     return jsonify(form=request.form), 200
 
 @app.route('/register', methods=['POST'])
@@ -146,7 +150,13 @@ def add_user():
     password=request.json['password']
     new_user = Users(firstName, lastName, email, school, password)
     db.session.add(new_user)
-    db.session.commit()
+    result = db.session.commit()
+    command = f"""SELECT * FROM users WHERE email='{email}'"""
+    results = db.engine.execute(command)
+    uid = ""
+    for r in results:
+        uid = str(r['id'])
+    mongo.db.investors.insert_one({"id": uid, "investment": []})
     return user_schema.jsonify(new_user)
 
 @app.route('/login', methods=['POST'])
@@ -159,7 +169,9 @@ def login():
     lastName=""
     passwordFromDb=""
     school=""
+    uid=""
     for r in results:
+        uid=r['id']
         passwordFromDb=r['password']
         firstName=r['firstName']
         lastName=r['lastName']
@@ -167,6 +179,7 @@ def login():
     #result=passwordFromDb
     #m=hashlib.sha1(result.encode()).hexdigest()
     user={
+        "uid": uid,
         "email": email,
         "firstName": firstName,
         "lastName": lastName,
@@ -175,6 +188,41 @@ def login():
     if(passwordFromDb==password):
         return jsonify(user), 200
     return jsonify({"message":"wrong"}), 404
+
+@app.route('/test', methods=['POST'])
+def test():
+    # for i in range(1, 8):
+    #     print(i)
+    #     mongo.db.investors.insert_one({"id": str(i), "investment": []})
+    return "good", 200
+    # mongo.db.investors.insert_one({"id": })
+
+@app.route('/invest', methods=['POST'])
+def invest():
+    cursor = mongo.db.investment.find({"id": request.json['investProject']})
+    investment=[]
+    for doc in cursor:
+        investment = doc['investment']
+    investment.append({
+        "timestamp": request.json['timestamp'], 
+        "investAmount": float(request.json['investAmount']),
+        "investor": request.json['uid']
+        })
+    mongo.db.investment.update_one({"id": request.json['investProject']}, {"$set": {"investment":investment}})
+    
+    cursor = mongo.db.investors.find({"id": request.json['uid']})
+    investment=[]
+    for doc in cursor:
+        investment = doc['investment']
+    investment.append({
+        "timestamp": request.json['timestamp'], 
+        "investProject": request.json['investProject'],
+        "investAmount": float(request.json['investAmount'])
+        })
+    mongo.db.investors.update_one({"id": request.json['uid']}, {"$set": {"investment":investment}})
+    
+    # print(request.json)
+    return "good", 200
 
 # get all projects
 @app.route('/project', methods=['GET'])
