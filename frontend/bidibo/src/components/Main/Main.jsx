@@ -80,7 +80,7 @@ class Main extends React.Component {
                     <Search handleChange={this.handleChange} />
                 </div>
                 <div style={{ float: "right", width: "87%" }}>
-                    <Table striped bordered hover>
+                    <Table striped bordered hover className="tableArea">
                         <thead>
                             <tr>
                                 <th>Preview</th>
@@ -132,7 +132,9 @@ class Main extends React.Component {
                                 );
                             })}
                         </tbody>
-                        <div style={{ marginBottom: "3rem" }}></div>
+                        {/* <div
+                            style={{ marginBottom: "3rem", border: "none" }}
+                        ></div> */}
                     </Table>
                 </div>
             </div>

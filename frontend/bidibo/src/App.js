@@ -16,6 +16,8 @@ import Upload from "./components/Upload/Upload";
 import Author from "./components/Author/Author";
 import MyAccount from "./components/MyAccount/MyAccount";
 import LikedProjects from "./components/LikedProjects/LikedProjects";
+import InvestedProjects from "./components/InvestedProjects/InvestedProjects";
+import Invest from "./components/Invest/Invest";
 
 class App extends React.Component {
     constructor(props) {
@@ -28,7 +30,8 @@ class App extends React.Component {
             isLoggedIn:
                 localStorage.getItem("isLoggedIn") === "true" ? true : false,
             projects: [],
-            filter: []
+            filter: [],
+            investAmount: ""
         };
         this.updateState = this.updateState.bind(this);
     }
@@ -107,11 +110,26 @@ class App extends React.Component {
                                 props={this.props}
                             />
                         </Route>
+                        <Route
+                            path="/invest/:id"
+                            render={props => (
+                                <Invest
+                                    stateHandler={this.stateHandler}
+                                    investAmount={this.state.investAmount}
+                                    email={this.state.email}
+                                    projects={this.state.projects}
+                                    {...props}
+                                />
+                            )}
+                        />
                         <Route path="/my_account">
                             <MyAccount />
                         </Route>
                         <Route path="/liked_projects">
                             <LikedProjects />
+                        </Route>
+                        <Route path="/invested_projects">
+                            <InvestedProjects />
                         </Route>
                         <Route
                             path="/"

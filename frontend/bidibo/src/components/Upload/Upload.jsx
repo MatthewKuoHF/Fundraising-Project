@@ -112,6 +112,7 @@ class Upload extends Component {
         }).then(res => {
             console.log(res);
         });
+        this.props.history.push("/");
     };
     render() {
         const { editorState } = this.state;
@@ -544,6 +545,7 @@ class Upload extends Component {
                         block
                         type="submit"
                         onClick={e => this.handleSubmit(e)}
+                        disabled={this.state.title === ""}
                     >
                         Submit
                     </Button>

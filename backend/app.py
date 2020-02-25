@@ -112,7 +112,7 @@ def upload_project():
         filename=secure_filename(image)
         ext = request.files[filename].filename.split(".")[-1]
         fname_with_ext = image+"."+ext
-        image_url_array.append(os.path.join(apiUrl, lastId, fname_with_ext))
+        image_url_array.append(os.path.join(apiUrl, "image", lastId, fname_with_ext))
         request.files[image].save(os.path.join(saved_filename, fname_with_ext))
 
     email = request.form['email']
@@ -121,9 +121,9 @@ def upload_project():
     author = ""
     authorId = ""
     for r in results:
+        print(r)
         author = r['firstName'] + " " + r['lastName']
         authorId=r['id']
-    print(authorId)
     project = {
         'id': lastId,
         'title': request.form['title'],

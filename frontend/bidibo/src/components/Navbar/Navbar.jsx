@@ -50,6 +50,11 @@ class NavbarComponent extends React.Component {
                         <NavDropdown.Item>
                             <Link to="/liked_projects">Liked Projects</Link>
                         </NavDropdown.Item>
+                        <NavDropdown.Item>
+                            <Link to="/invested_projects">
+                                Invested Projects
+                            </Link>
+                        </NavDropdown.Item>
                     </NavDropdown>
                     <a href="/" onClick={this.singOut} id="navlink">
                         Sign out
@@ -76,31 +81,6 @@ class NavbarComponent extends React.Component {
                                     Home
                                 </Link>
                             </Nav>
-                            {/* <NavDropdown
-                                title={<span id="navlink">Category</span>}
-                                id="basic-nav-dropdown"
-                            >
-                                {this.state.categories.length === 0
-                                    ? null
-                                    : this.state.categories.map(category => {
-                                          return (
-                                              <NavDropdown.Item
-                                                  key={this.state.categories.indexOf(
-                                                      category
-                                                  )}
-                                              >
-                                                  <Link
-                                                      to={
-                                                          "/category/" +
-                                                          category
-                                                      }
-                                                  >
-                                                      {category}
-                                                  </Link>
-                                              </NavDropdown.Item>
-                                          );
-                                      })}
-                            </NavDropdown> */}
                             <Nav>
                                 <Link to="/upload" id="navlink">
                                     Upload

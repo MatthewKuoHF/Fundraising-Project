@@ -14,6 +14,7 @@ import Like from "../common/like";
 import http from "../../services/httpService";
 import config from "../../config.json";
 import { Link } from "react-router-dom";
+import parse from "html-react-parser";
 //Use carousal as imageslider
 //Use tab for lower part
 
@@ -22,11 +23,12 @@ class Project extends React.Component {
         id: this.props.match.params.id,
         index: Number(this.props.match.params.id) - 1,
         userId: "",
-        investment: undefined,
+        investAmount: "",
         project: {}
     };
     handleOnChange = target => {
         this.setState({ investment: target.value });
+        this.props.stateHandler("investAmount", target.value);
     };
     handleClick = () => {
         this.props.history.goBack();
@@ -50,7 +52,6 @@ class Project extends React.Component {
     render() {
         return (
             <div className="project">
-                {/* {this.props.isLoggedIn ? "True" : "False"} */}
                 <div className="upper">
                     <Button
                         variant="secondary"
@@ -69,17 +70,11 @@ class Project extends React.Component {
                                 <Container
                                     style={{
                                         marginLeft: "0px"
-                                        // marginRight: "0px",
-                                        // paddingLeft: "0px",
-                                        // paddingRight: "0px"
                                     }}
                                 >
                                     <Row>
                                         <Col sm={8} md={8}>
-                                            <Carousel
-                                                interval={0}
-                                                // style={{ float: "left" }}
-                                            >
+                                            <Carousel interval={0}>
                                                 {this.state.project.images ===
                                                 undefined
                                                     ? null
@@ -141,7 +136,7 @@ class Project extends React.Component {
                                                             Invest:{" $ "}
                                                             <input
                                                                 type="number"
-                                                                name="invest"
+                                                                name="investAmount"
                                                                 value={
                                                                     this.state
                                                                         .investment ||
@@ -159,14 +154,19 @@ class Project extends React.Component {
                                                                         "0.5rem"
                                                                 }}
                                                             ></input>
-                                                            <button
-                                                                type="submit"
+                                                            <Link
+                                                                to={
+                                                                    "/invest/" +
+                                                                    this.state
+                                                                        .project
+                                                                        .id
+                                                                }
                                                                 style={{
                                                                     width: "20%"
                                                                 }}
                                                             >
                                                                 Go!
-                                                            </button>
+                                                            </Link>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -201,8 +201,6 @@ class Project extends React.Component {
                                         </Col>
                                     </Row>
                                 </Container>
-                                {/* <Card.Text>1</Card.Text>
-                            <Card.Text>2</Card.Text> */}
                             </div>
                         </Card.Body>
                     </Card>
@@ -222,18 +220,8 @@ class Project extends React.Component {
                                         {this.state.project.description ===
                                         undefined
                                             ? ""
-                                            : this.state.project.description.map(
-                                                  line => {
-                                                      return (
-                                                          <p
-                                                              key={this.state.project.description.indexOf(
-                                                                  line
-                                                              )}
-                                                          >
-                                                              {line}
-                                                          </p>
-                                                      );
-                                                  }
+                                            : parse(
+                                                  this.state.project.description
                                               )}
                                     </div>
                                 </Card.Body>
