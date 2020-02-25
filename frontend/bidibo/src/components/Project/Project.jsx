@@ -104,7 +104,7 @@ class Project extends React.Component {
                                                 <tbody>
                                                     <tr>
                                                         <td>
-                                                            author:{" "}
+                                                            Author:{" "}
                                                             <Link
                                                                 to={
                                                                     "/author/" +
@@ -123,7 +123,7 @@ class Project extends React.Component {
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            category:{" "}
+                                                            Category:{" "}
                                                             {
                                                                 this.state
                                                                     .project

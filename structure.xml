@@ -1,9 +1,32 @@
 <Project>
     <FrontEnd>
-        <Register>
-            <email></email>
-            <password></password>
-            <school></school>
-        </Register>
+        <Navbar>
+            <Upload></Upload>
+            <Dashboard>
+                <MyAccount></MyAccount>
+                <LikedProjects></LikedProjects>
+                <InvestedProjects></InvestedProjects>
+            </Dashboard>
+            <Login>
+                <Register>
+                    <email></email>
+                    <firstName></firstName>
+                    <lastName></lastName>
+                    <password></password>
+                    <school></school>
+                </Register>
+            </Login>
+        </Navbar>
+        <Main>
+            <Search></Search>
+            <Table>
+                <Project>
+                    <Invest></Invest>
+                    <Like></Like>
+                </Project>
+            </Table>
+        </Main>
+        <Author></Author>
+        <Footer></Footer>
     </FrontEnd>
 </Project>

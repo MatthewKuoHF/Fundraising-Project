@@ -7,3 +7,23 @@
 .pdt0 {
     padding-top: 0px;
 }
+.cardAnimation {
+    float: left;
+}
+#PaymentForm {
+    width: 100%;
+    margin-bottom: 0.8rem;
+}
+.inputArea {
+    margin-top: 1rem;
+    margin-left: 1rem;
+    float: left;
+    width: 60%;
+}
+.inputLine {
+    margin-top: 0px;
+    margin-bottom: 0.8rem;
+}
+button {
+    width: 100%;
+}
