@@ -13,7 +13,7 @@ install react-toastify@4.1<br />
 (install @sentry/browser@5.11.2)<br />
 Login->Error(breadcrum)<br />
 Use carousal as image slider<br />
-20200220: Update description to a string<br />
+20200227: Add order by feature to investment history<br />
 
 <br />
 for node:<br />

@@ -61,7 +61,6 @@ class Main extends React.Component {
         if (filteredCategories.length === 0 && filteredText.length === 0) {
             filtered = this.state.projects;
         }
-        console.log(filtered);
         this.setState({ filteredProjects: filtered });
     };
     render() {

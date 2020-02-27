@@ -5,7 +5,7 @@
             <Dashboard>
                 <MyAccount></MyAccount>
                 <LikedProjects></LikedProjects>
-                <InvestedProjects></InvestedProjects>
+                <InvestmentHistory></InvestmentHistory>
             </Dashboard>
             <Login>
                 <Register>

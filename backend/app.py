@@ -272,6 +272,26 @@ def get_project(id: int):
         output = "No such project"
         return jsonify(), 404
 
+# get investment
+@app.route('/investment/<uid>', methods=['GET'])
+def get_investment(uid: int):
+    investment = mongo.db.investors
+    p = investment.find_one({'id': uid})
+    if p:
+        output = {
+            'id': p['id'], 
+            'investment': p['investment']
+        }
+        for i in output['investment']:
+            projects = mongo.db.projects
+            project = projects.find_one({'id': i['investProject']})
+            i['projectTitle'] = project['title']
+            i['category'] = project['category']
+        return jsonify(output), 200
+    else:
+        output = "No such investor"
+        return jsonify(), 404
+
 # get image
 @app.route('/image/<project>/<filename>', methods=['GET'])
 def get_image(project: int, filename: str):

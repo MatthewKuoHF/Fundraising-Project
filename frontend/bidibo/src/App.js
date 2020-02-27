@@ -14,7 +14,7 @@ import Upload from "./components/Upload/Upload";
 import Author from "./components/Author/Author";
 import MyAccount from "./components/MyAccount/MyAccount";
 import LikedProjects from "./components/LikedProjects/LikedProjects";
-import InvestedProjects from "./components/InvestedProjects/InvestedProjects";
+import InvestmentHistory from "./components/InvestmentHistory/InvestmentHistory";
 import Invest from "./components/Invest/Invest";
 
 class App extends React.Component {
@@ -127,8 +127,8 @@ class App extends React.Component {
                         <Route path="/liked_projects">
                             <LikedProjects />
                         </Route>
-                        <Route path="/invested_projects">
-                            <InvestedProjects />
+                        <Route path="/investment_history">
+                            <InvestmentHistory />
                         </Route>
                         <Route
                             path="/"

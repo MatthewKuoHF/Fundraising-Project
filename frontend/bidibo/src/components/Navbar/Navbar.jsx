@@ -42,8 +42,8 @@ class NavbarComponent extends React.Component {
                             <Link to="/liked_projects">Liked Projects</Link>
                         </NavDropdown.Item>
                         <NavDropdown.Item>
-                            <Link to="/invested_projects">
-                                Invested Projects
+                            <Link to="/investment_history">
+                                Investment History
                             </Link>
                         </NavDropdown.Item>
                     </NavDropdown>
