@@ -76,7 +76,7 @@ class InvestmentHistory extends Component {
                     <Search handleChange={this.handleChange} />
                 </div>
                 <div style={{ float: "right", width: "87%" }}>
-                    <h4>InvestmentHistory</h4>
+                    <h4>Investment History</h4>
                     <Table striped bordered hover className="tableArea">
                         <thead>
                             <tr></tr>

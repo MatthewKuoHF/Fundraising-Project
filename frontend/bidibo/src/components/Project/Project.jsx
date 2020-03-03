@@ -24,7 +24,9 @@ class Project extends React.Component {
         index: Number(this.props.match.params.id) - 1,
         userId: "",
         investAmount: "",
-        project: {}
+        project: {},
+        likedProjects: this.props.likedProjects,
+        liked: false
     };
     handleOnChange = target => {
         this.setState({ investment: target.value });
@@ -33,7 +35,64 @@ class Project extends React.Component {
     handleClick = () => {
         this.props.history.goBack();
     };
+    likedOnClick = () => {
+        if (this.state.liked === false) {
+            http.post(
+                config.apiUrl +
+                    "/like/" +
+                    localStorage.getItem("uid") +
+                    "/" +
+                    this.state.id
+            )
+                .then(response => {
+                    const { data } = response;
+                    this.setState({ likedProjects: data });
+                    this.props.stateHandler("likedProjects", data);
+                })
+                .catch(ex => {
+                    console.log(ex);
+                });
+        }
+        if (this.state.liked === true) {
+            http.post(
+                config.apiUrl +
+                    "/unlike/" +
+                    localStorage.getItem("uid") +
+                    "/" +
+                    this.state.id
+            )
+                .then(response => {
+                    const { data } = response;
+                    this.setState({ likedProjects: data });
+                    this.props.stateHandler("likedProjects", data);
+                })
+                .catch(ex => {
+                    console.log(ex);
+                });
+        }
+        this.setState({ liked: !this.state.liked });
+    };
     componentDidMount() {
+        if (this.state.likedProjects.length === 0) {
+            http.get(config.apiUrl + "/liked/" + localStorage.getItem("uid"))
+                .then(response => {
+                    const { data } = response;
+                    this.setState({ likedProjects: data });
+                    data.forEach(project => {
+                        if (project.id === this.state.id) {
+                            this.setState({ liked: true });
+                        }
+                    });
+                })
+                .catch(ex => {
+                    console.log(ex);
+                });
+        }
+        this.state.likedProjects.forEach(project => {
+            if (project.id === this.state.id) {
+                this.setState({ liked: true });
+            }
+        });
         const { index } = this.state;
         if (!this.props.projects.length) {
             http.get(config.apiUrl + "/project")
@@ -172,6 +231,10 @@ class Project extends React.Component {
                                                     <tr>
                                                         <td>
                                                             <div
+                                                                onClick={
+                                                                    this
+                                                                        .likedOnClick
+                                                                }
                                                                 style={{
                                                                     border:
                                                                         "solid",
@@ -180,7 +243,7 @@ class Project extends React.Component {
                                                                     borderWidth:
                                                                         "2px",
                                                                     width:
-                                                                        "11rem",
+                                                                        "8rem",
                                                                     backgroundColor:
                                                                         "blue",
                                                                     borderColor:
@@ -188,11 +251,22 @@ class Project extends React.Component {
                                                                     color:
                                                                         "white",
                                                                     cursor:
-                                                                        "pointer"
+                                                                        "pointer",
+                                                                    textAlign:
+                                                                        "center"
                                                                 }}
                                                             >
-                                                                <Like /> Like
-                                                                this proejct
+                                                                <Like
+                                                                    liked={
+                                                                        this
+                                                                            .state
+                                                                            .liked
+                                                                    }
+                                                                />{" "}
+                                                                {this.state
+                                                                    .liked
+                                                                    ? "Unlike"
+                                                                    : "Like"}
                                                             </div>
                                                         </td>
                                                     </tr>

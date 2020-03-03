@@ -77,12 +77,6 @@ product_schema = ProductSchema()
 products_schema = ProductSchema(many=True)
 user_schema = UserSchema()
 
-# # test get image
-# @app.route('/test', methods=['GET'])
-# def test():
-#     for filename in os.listdir()
-#     return jsonify(output)
-
 # create a product
 @app.route('/product', methods=['POST'])
 def add_product():
@@ -156,7 +150,7 @@ def add_user():
     uid = ""
     for r in results:
         uid = str(r['id'])
-    mongo.db.investors.insert_one({"id": uid, "investment": []})
+    mongo.db.investors.insert_one({"id": uid, "investment": [], "liked": []})
     return user_schema.jsonify(new_user)
 
 @app.route('/login', methods=['POST'])
@@ -176,8 +170,7 @@ def login():
         firstName=r['firstName']
         lastName=r['lastName']
         school=r['school']
-    #result=passwordFromDb
-    #m=hashlib.sha1(result.encode()).hexdigest()
+
     user={
         "uid": uid,
         "email": email,
@@ -188,6 +181,54 @@ def login():
     if(passwordFromDb==password):
         return jsonify(user), 200
     return jsonify({"message":"wrong"}), 404
+
+# like a project
+@app.route('/like/<uid>/<pid>', methods=['POST'])
+def like(uid: str, pid: str):
+    like = mongo.db.investors
+    p = like.find_one({'id': uid})
+    if p:
+        if(not(str(pid) in p['liked'])):
+            p['liked'].append(pid)
+        p['liked'].sort()
+        mongo.db.investors.update_one({"id": uid}, {"$set": {"liked": p['liked']}})
+        liked = []
+        for i in p['liked']:
+            projects = mongo.db.projects
+            project = projects.find_one({'id': i})
+            liked.append({
+                "id": i, 
+                "title": project['title'], 
+                "category": project['category']
+                })
+        return jsonify(liked), 200
+    else:
+        output = "No such investor"
+        return jsonify(), 404
+
+# like a project
+@app.route('/unlike/<uid>/<pid>', methods=['POST'])
+def unlike(uid: str, pid: str):
+    like = mongo.db.investors
+    p = like.find_one({'id': uid})
+    if p:
+        if(str(pid) in p['liked']):
+            p['liked'].remove(str(pid))
+        p['liked'].sort()
+        mongo.db.investors.update_one({"id": uid}, {"$set": {"liked": p['liked']}})
+        liked = []
+        for i in p['liked']:
+            projects = mongo.db.projects
+            project = projects.find_one({'id': i})
+            liked.append({
+                "id": i, 
+                "title": project['title'], 
+                "category": project['category']
+                })
+        return jsonify(liked), 200
+    else:
+        output = "No such investor"
+        return jsonify(), 404
 
 @app.route('/test', methods=['POST'])
 def test():
@@ -300,6 +341,30 @@ def get_image(project: int, filename: str):
         return send_file(file_path, mimetype='image'), 200
     except:
         return send_file(app.config['UPLOAD_FOLDER']+"/not_found.png", mimetype='image'), 404
+
+# get liked projects
+@app.route('/liked/<uid>', methods=['GET'])
+def get_liked(uid: int):
+    like = mongo.db.investors
+    p = like.find_one({'id': uid})
+    if p:
+        output = {
+            'id': p['id'], 
+            'liked': p['liked']
+        }
+        liked = []
+        for i in output['liked']:
+            projects = mongo.db.projects
+            project = projects.find_one({'id': i})
+            liked.append({
+                "id": i, 
+                "title": project['title'], 
+                "category": project['category']
+                })
+        return jsonify(liked), 200
+    else:
+        output = "No such investor"
+        return jsonify(), 404
 
 # get all product
 @app.route('/product', methods=['GET'])

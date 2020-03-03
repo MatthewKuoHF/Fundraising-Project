@@ -5,6 +5,8 @@ import NavbarComponent from "./components/Navbar/Navbar";
 import Login from "./components/Login/Login";
 import Main from "./components/Main/Main";
 import Register from "./components/Register/Register";
+import http from "./services/httpService";
+import config from "./config.json";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -30,11 +32,26 @@ class App extends React.Component {
             projects: [],
             filter: [],
             investAmount: "",
-            uid: ""
+            uid: "",
+            likedProjects: []
         };
         this.updateState = this.updateState.bind(this);
     }
-    componentDidMount() {}
+    componentDidMount() {
+        this.getLikedProjects();
+    }
+    getLikedProjects() {
+        if (localStorage.getItem("uid") !== "") {
+            http.get(config.apiUrl + "/liked/" + localStorage.getItem("uid"))
+                .then(response => {
+                    const { data } = response;
+                    this.setState({ likedProjects: data });
+                })
+                .catch(ex => {
+                    console.log(ex);
+                });
+        }
+    }
     updateState(name, value) {
         this.setState({
             [name]: value
@@ -79,6 +96,7 @@ class App extends React.Component {
                                     isLoggedIn={this.state.isLoggedIn}
                                     stateHandler={this.updateState}
                                     projects={this.state.projects}
+                                    likedProjects={this.state.likedProjects}
                                     {...props}
                                 />
                             )}
@@ -125,7 +143,10 @@ class App extends React.Component {
                             <MyAccount />
                         </Route>
                         <Route path="/liked_projects">
-                            <LikedProjects />
+                            <LikedProjects
+                                likedProjects={this.state.likedProjects}
+                                stateHandler={this.updateState}
+                            />
                         </Route>
                         <Route path="/investment_history">
                             <InvestmentHistory />
