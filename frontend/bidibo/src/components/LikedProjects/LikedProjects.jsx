@@ -67,12 +67,12 @@ class LikedProjects extends Component {
             this.setState({ filteredText });
         }
         if (filteredCategories.length) {
-            filtered = this.state.likedProjects.filter(m =>
+            filtered = filtered.filter(m =>
                 filteredCategories.includes(m.category)
             );
         }
         if (filteredText.length) {
-            filtered = this.state.likedProjects.filter(m =>
+            filtered = filtered.filter(m =>
                 m.title.toLowerCase().startsWith(filteredText.toLowerCase())
             );
         }

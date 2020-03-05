@@ -12,6 +12,8 @@ from flask import Flask, request, jsonify, Response, send_file
 from flask_pymongo import PyMongo
 from werkzeug.utils import secure_filename
 import hashlib
+from datetime import datetime, timedelta
+import random
 from pprint import pprint
 
 app = Flask(__name__)
@@ -230,14 +232,49 @@ def unlike(uid: str, pid: str):
         output = "No such investor"
         return jsonify(), 404
 
-@app.route('/test', methods=['POST'])
-def test():
-    # for i in range(1, 8):
-    #     print(i)
-    #     mongo.db.investors.insert_one({"id": str(i), "investment": []})
-    return "good", 200
-    # mongo.db.investors.insert_one({"id": })
+@app.route('/generate', methods=['POST'])
+def generate_data():
+    cur = datetime(2020, 3, 19, 0, 0)
+    # for i in range(0, 150):
+    for i in range(0, 0):
+        rand_hr = random.randint(0, 2)
+        rand_min = random.randint(0, 60)
+        rand_sec = random.randint(0, 60)
+        cur += timedelta(hours=rand_hr, minutes=rand_min, seconds=rand_sec)
+        
+        timestamp = str(cur).replace(' ', '').replace('-', '').replace(':', '')
+        investAmount = random.randint(5, 3000)
+        investor = str(random.randint(1, 10))
+        investProject = str(random.randint(1, 8))
 
+        investment_data = {
+            "timestamp": timestamp,
+            "investAmount": investAmount,
+            "investor": investor
+        }
+
+        investor_data = {
+            "timestamp": timestamp,
+            "investProject": investProject,
+            "investAmount": investAmount
+        }
+
+        cursor = mongo.db.investment.find({"id": investProject})
+        investment=[]
+        for doc in cursor:
+            investment = doc['investment']
+        investment.append(investment_data)
+        mongo.db.investment.update_one({"id": investProject}, {"$set": {"investment":investment}})
+    
+        cursor = mongo.db.investors.find({"id": investor})
+        investment=[]
+        for doc in cursor:
+            investment = doc['investment']
+        investment.append(investor_data)
+        mongo.db.investors.update_one({"id": investor}, {"$set": {"investment":investment}})
+        # print(investment, investor_data)
+    return "good", 200
+    
 @app.route('/invest', methods=['POST'])
 def invest():
     cursor = mongo.db.investment.find({"id": request.json['investProject']})
@@ -364,6 +401,50 @@ def get_liked(uid: int):
         return jsonify(liked), 200
     else:
         output = "No such investor"
+        return jsonify(), 404
+
+# get trend
+@app.route('/trend/<pid>', methods=['GET'])
+def get_trend(pid: int):
+    investment = mongo.db.investment
+    p = investment.find_one({'id': pid})
+    if p:
+        output = {
+            'id': p['id'], 
+            'investment': p['investment']
+        }
+        days=[0]*20
+        count=0
+        day=''
+        for i in p['investment']:
+            i['timestamp']=i['timestamp'][0:8]
+            if(day==i['timestamp']):
+                days[count]+=int(i['investAmount'])
+            else:
+                days[count+1]=days[count]
+                count+=1
+                days[count]+=int(i['investAmount'])
+            day = i['timestamp']
+        i=0
+        length=len(days)
+        while(i<length):
+            if(days[i]==0):
+                days.remove(days[i])
+                length-=1
+                continue
+            i+=1
+        days=days[-7:]
+        # lastDay = datetime(int(day[0:4]), int(day[4:6]), int(day[6:8]))
+        lastDay = datetime(2020, 3, 26)
+        result=[]
+        for i in range(len(days)):
+            result.append({'date': str(lastDay).replace('-', '')[0:8], 'sum': days[-(i+1)]})
+            lastDay -= timedelta(days=1)
+        result.reverse()
+        return jsonify(result), 200
+
+    else:
+        output = "No such project"
         return jsonify(), 404
 
 # get all product

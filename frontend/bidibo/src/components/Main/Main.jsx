@@ -48,13 +48,19 @@ class Main extends React.Component {
             this.setState({ filteredText });
         }
         if (filteredCategories.length) {
-            filtered = this.state.projects.filter(m =>
+            // filtered = this.state.projects.filter(m =>
+            //     filteredCategories.includes(m.category)
+            // );
+            filtered = filtered.filter(m =>
                 filteredCategories.includes(m.category)
             );
         }
 
         if (filteredText.length) {
-            filtered = this.state.projects.filter(m =>
+            // filtered = this.state.projects.filter(m =>
+            //     m.title.toLowerCase().startsWith(filteredText.toLowerCase())
+            // );
+            filtered = filtered.filter(m =>
                 m.title.toLowerCase().startsWith(filteredText.toLowerCase())
             );
         }

@@ -47,12 +47,12 @@ class InvestmentHistory extends Component {
             this.setState({ filteredText });
         }
         if (filteredCategories.length) {
-            filtered = this.state.investmentHistory.filter(m =>
+            filtered = filtered.filter(m =>
                 filteredCategories.includes(m.category)
             );
         }
         if (filteredText.length) {
-            filtered = this.state.investmentHistory.filter(m =>
+            filtered = filtered.filter(m =>
                 m.projectTitle
                     .toLowerCase()
                     .startsWith(filteredText.toLowerCase())
