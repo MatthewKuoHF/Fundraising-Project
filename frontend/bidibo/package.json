@@ -12,6 +12,8 @@
         "draft-js": "^0.11.4",
         "draft-js-export-html": "^1.4.1",
         "font-awesome": "^4.7.0",
+        "highcharts": "^8.0.3",
+        "highcharts-react-official": "^3.0.0",
         "html-react-parser": "^0.10.1",
         "joi-browser": "^13.4.0",
         "lodash": "^4.17.10",

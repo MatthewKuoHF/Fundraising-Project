@@ -16,6 +16,7 @@ import config from "../../config.json";
 import { Link } from "react-router-dom";
 import parse from "html-react-parser";
 import Trend from "./Trend/Trend";
+import Range from "./Range/Range";
 //Use carousal as imageslider
 //Use tab for lower part
 
@@ -307,9 +308,21 @@ class Project extends React.Component {
                                 <Card.Body>
                                     <div>
                                         <Card.Title id="title">
-                                            Trend
+                                            Weekly Trend
                                         </Card.Title>
                                         <Trend id={this.state.id} />
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Tab>
+                        <Tab eventKey="distribution" title="Distribution">
+                            <Card style={{ width: "100%" }}>
+                                <Card.Body>
+                                    <div>
+                                        <Card.Title id="title">
+                                            Distribution
+                                        </Card.Title>
+                                        <Range id={this.state.id} />
                                     </div>
                                 </Card.Body>
                             </Card>

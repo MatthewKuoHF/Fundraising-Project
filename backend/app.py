@@ -318,7 +318,48 @@ def get_projects():
             'author': p['author'], 
             'authorId': p['authorId'],
         })
-    return jsonify(output)
+    return jsonify(output), 200
+
+# get all projects given author
+@app.route('/author/<pid>', methods=['GET'])
+def get_author(pid: int):
+    projects = mongo.db.projects
+    p = projects.find({'authorId': pid})
+    output=[]
+    for i in p:
+        output.append({
+            "title": i['title'],
+            "pid": i['id'],
+            "category": i['category'],
+            "author": i['author'],
+            "briefDescription": i['briefDescription'],
+            "images": i["images"]
+        })
+    command = f"""SELECT * FROM users WHERE id='{pid}'"""
+    results = db.engine.execute(command)
+    firstName=""
+    lastName=""
+    email=""
+    school=""
+    for r in results:
+        uid=r['id']
+        firstName=r['firstName']
+        lastName=r['lastName']
+        school=r['school']
+        email=r['email']
+
+    author={
+        "uid": uid,
+        "email": email,
+        "firstName": firstName,
+        "lastName": lastName,
+        "school": school
+    }
+    result={
+        "author": author,
+        "projects": output
+    }
+    return jsonify(result), 200
 
 # get all categories
 @app.route('/categories', methods=['GET'])
@@ -401,6 +442,53 @@ def get_liked(uid: int):
         return jsonify(liked), 200
     else:
         output = "No such investor"
+        return jsonify(), 404
+
+# get range
+@app.route('/range/<pid>', methods=['GET'])
+def get_range(pid: int):
+    # range: 0-200, 201-400, 401-600, 601-800, 801-1000, 1000+
+    investment = mongo.db.investment
+    p = investment.find_one({'id': pid})
+    r = [
+        {"range": "0-200", "amount": 0 },
+        {"range": "201-400", "amount": 0 },
+        {"range": "401-600", "amount": 0 },
+        {"range": "601-800", "amount": 0 },
+        {"range": "801-1000", "amount": 0 },
+        {"range": "1001-1200", "amount": 0 },
+        {"range": "1201-1400", "amount": 0 },
+        {"range": "1401-1600", "amount": 0 },
+        {"range": "1601-1800", "amount": 0 },
+        {"range": "1801-2000", "amount": 0 },
+        {"range": "2000+", "amount": 0 },
+    ]
+    if p:
+        for i in p['investment']:
+            if(i['investAmount']<=200):
+                r[0]['amount']+=i['investAmount']
+            elif(i['investAmount']<=400):
+                r[1]['amount']+=i['investAmount']
+            elif(i['investAmount']<=600):
+                r[2]['amount']+=i['investAmount']
+            elif(i['investAmount']<=800):
+                r[3]['amount']+=i['investAmount']
+            elif(i['investAmount']<=1000):
+                r[4]['amount']+=i['investAmount']
+            elif(i['investAmount']<=1200):
+                r[5]['amount']+=i['investAmount']
+            elif(i['investAmount']<=1400):
+                r[6]['amount']+=i['investAmount']
+            elif(i['investAmount']<=1600):
+                r[7]['amount']+=i['investAmount']
+            elif(i['investAmount']<=1800):
+                r[8]['amount']+=i['investAmount']
+            elif(i['investAmount']<=2000):
+                r[9]['amount']+=i['investAmount']
+            else:
+                r[10]['amount']+=i['investAmount']
+        return jsonify(r), 200
+    else:
         return jsonify(), 404
 
 # get trend
