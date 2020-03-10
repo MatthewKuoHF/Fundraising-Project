@@ -22,7 +22,7 @@ button {
 .submit {
     font-size: 30px;
     margin-bottom: 5px;
-    text-align: center;
+    margin: 0 auto;
 }
 
 .links {

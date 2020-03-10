@@ -42,7 +42,6 @@ class Register extends Form {
         school: Joi.string().required()
     };
     doSubmit = () => {
-        console.log("Submitted");
         const data = { ...this.state.data };
         let hashPwd = crypto
             .createHash("sha1")

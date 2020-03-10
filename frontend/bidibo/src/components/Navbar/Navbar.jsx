@@ -17,11 +17,13 @@ class NavbarComponent extends React.Component {
         this.props.stateHandler("firstName", "");
         this.props.stateHandler("lastName", "");
         this.props.stateHandler("school", "");
+        this.props.stateHandler("uid", "");
         localStorage.setItem("isLoggedIn", false);
         localStorage.setItem("email", "");
         localStorage.setItem("firstName", "");
         localStorage.setItem("lastName", "");
         localStorage.setItem("school", "");
+        localStorage.setItem("uid", "");
         this.props.history.push("/");
     }
 

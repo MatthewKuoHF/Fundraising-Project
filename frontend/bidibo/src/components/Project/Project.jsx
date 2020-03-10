@@ -38,6 +38,9 @@ class Project extends React.Component {
         this.props.history.goBack();
     };
     likedOnClick = () => {
+        if (localStorage.getItem("isLoggedIn") === "false") {
+            this.props.history.push("/login");
+        }
         if (this.state.liked === false) {
             http.post(
                 config.apiUrl +

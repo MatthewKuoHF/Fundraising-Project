@@ -112,7 +112,6 @@ class Login extends Component {
                         </Link>
                     </div>
                 </form>
-                <h1>Login: {this.props.isLoggedIn ? "True" : "False"}</h1>
             </div>
         );
     }

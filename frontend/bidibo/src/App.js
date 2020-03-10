@@ -1,4 +1,4 @@
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import React from "react";
 
 import NavbarComponent from "./components/Navbar/Navbar";
@@ -10,7 +10,6 @@ import config from "./config.json";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-//import logo from './logo.svg';
 import Project from "./components/Project/Project";
 import Upload from "./components/Upload/Upload";
 import Author from "./components/Author/Author";
@@ -18,6 +17,7 @@ import MyAccount from "./components/MyAccount/MyAccount";
 import LikedProjects from "./components/LikedProjects/LikedProjects";
 import InvestmentHistory from "./components/InvestmentHistory/InvestmentHistory";
 import Invest from "./components/Invest/Invest";
+import Footer from "./components/Footer/Footer";
 
 class App extends React.Component {
     constructor(props) {
@@ -107,12 +107,21 @@ class App extends React.Component {
                         />
                         <Route
                             path="/upload"
-                            render={props => (
-                                <Upload
-                                    isLoggedIn={this.state.isLoggedIn}
-                                    {...props}
-                                />
-                            )}
+                            render={props => {
+                                if (
+                                    localStorage.getItem("isLoggedIn") ===
+                                    "true"
+                                ) {
+                                    return (
+                                        <Upload
+                                            isLoggedIn={this.state.isLoggedIn}
+                                            {...props}
+                                        />
+                                    );
+                                } else {
+                                    this.props.history.push("/login");
+                                }
+                            }}
                         />
                         <Route path="/login">
                             <Login
@@ -129,18 +138,29 @@ class App extends React.Component {
                         </Route>
                         <Route
                             path="/invest/:id"
-                            render={props => (
-                                <Invest
-                                    stateHandler={this.stateHandler}
-                                    investAmount={this.state.investAmount}
-                                    email={this.state.email}
-                                    projects={this.state.projects}
-                                    {...props}
-                                />
-                            )}
+                            render={props => {
+                                if (
+                                    localStorage.getItem("isLoggedIn") ===
+                                    "true"
+                                ) {
+                                    return (
+                                        <Invest
+                                            stateHandler={this.stateHandler}
+                                            investAmount={
+                                                this.state.investAmount
+                                            }
+                                            email={this.state.email}
+                                            projects={this.state.projects}
+                                            {...props}
+                                        />
+                                    );
+                                } else {
+                                    this.props.history.push("/login");
+                                }
+                            }}
                         />
                         <Route path="/my_account">
-                            <MyAccount />
+                            <MyAccount stateHandler={this.updateState} />
                         </Route>
                         <Route path="/liked_projects">
                             <LikedProjects
@@ -165,20 +185,10 @@ class App extends React.Component {
                     </Switch>
                 </div>
                 <div style={{ height: "3rem" }}></div>
-                <footer
-                    style={{
-                        position: "fixed",
-                        width: "100%",
-                        bottom: "0",
-                        marginBottom: "0px",
-                        background: "blue"
-                    }}
-                >
-                    <h3 style={{ color: "white" }}>Footer</h3>
-                </footer>
+                <Footer />
             </div>
         );
     }
 }
 
-export default App;
+export default withRouter(App);

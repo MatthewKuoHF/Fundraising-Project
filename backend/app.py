@@ -535,6 +535,20 @@ def get_trend(pid: int):
         output = "No such project"
         return jsonify(), 404
 
+# update an account
+@app.route('/update/<uid>', methods=['PUT'])
+def update_account(uid):
+    email=request.json['email']
+    password=request.json['password']
+    firstName=request.json['firstName']
+    lastName=request.json['lastName']
+    school=request.json['school']
+    command = f"""UPDATE users SET password='{password}', firstName='{firstName}', lastName='{lastName}', school='{school}' WHERE email='{email}'"""
+    results = db.engine.execute(command)
+    db.session.commit()
+
+    return jsonify(), 200
+
 # get all product
 @app.route('/product', methods=['GET'])
 def get_products():
