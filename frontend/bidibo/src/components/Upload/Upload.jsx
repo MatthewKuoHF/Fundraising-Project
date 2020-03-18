@@ -138,7 +138,7 @@ class Upload extends Component {
                             onChange={e => this.handleOnChange(e)}
                         ></input>
                         <div style={{ float: "right", width: "45%" }}>
-                            <h4>Breif Description: </h4>
+                            <h4>Brief Description: </h4>
                             <Form.Control
                                 placeholder="Line 1"
                                 name="bd1"
